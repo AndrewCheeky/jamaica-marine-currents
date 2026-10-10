@@ -59,3 +59,7 @@ The marker now uses `site/assets/fish-pin.png` with a cropped transparent backgr
 - White land, the 13 × 20 px transparent fish-pin, forecast timestamps, and the Copernicus dataset retrieval remain unchanged.
 - Requires SciPy (added to requirements.txt).
 - Workflow unchanged. Start a **new** workflow_dispatch run instead of rerunning an old run to avoid duplicate github-pages artifacts.
+
+
+## Bank locations update
+This edition contains all 13 locations exactly as provided in the `banks` sheet, including Maiden Cay. All locations fall inside the map bounds. Coordinates are user-provided and have not been independently verified.

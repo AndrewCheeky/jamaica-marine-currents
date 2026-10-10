@@ -1,4 +1,80 @@
 [
-  {"key":"bowditch","name":"Mackerel (Bowditch) Bank","lat":17.520,"lon":-76.947},
-  {"key":"california","name":"California Bank","lat":17.750,"lon":-76.783}
+  {
+    "key": "bowditch",
+    "name": "Mackerel (Bowditch)",
+    "lat": 17.52,
+    "lon": -76.947
+  },
+  {
+    "key": "california",
+    "name": "California Bank",
+    "lat": 17.75,
+    "lon": -76.783
+  },
+  {
+    "key": "southdrop",
+    "name": "South Drop",
+    "lat": 17.3,
+    "lon": -76.5
+  },
+  {
+    "key": "portroyal",
+    "name": "Port Royal",
+    "lat": 17.92,
+    "lon": -76.84
+  },
+  {
+    "key": "henryholmes",
+    "name": "Henry Holmes Bank",
+    "lat": 18.117,
+    "lon": -76.083
+  },
+  {
+    "key": "grappler",
+    "name": "Grappler Bank",
+    "lat": 18,
+    "lon": -75.983
+  },
+  {
+    "key": "formigas",
+    "name": "Formigas Bank",
+    "lat": 18.5,
+    "lon": -75.75
+  },
+  {
+    "key": "mobayair",
+    "name": "Mobay Airport",
+    "lat": 18.5251167,
+    "lon": -77.9515833
+  },
+  {
+    "key": "castle",
+    "name": "Trident Castle",
+    "lat": 18.202424,
+    "lon": -76.423208
+  },
+  {
+    "key": "riverm",
+    "name": "Rio Grande",
+    "lat": 18.227453,
+    "lon": -76.51642
+  },
+  {
+    "key": "falmouth",
+    "name": "Falmouth Pier",
+    "lat": 18.527789,
+    "lon": -77.652722
+  },
+  {
+    "key": "morant",
+    "name": "Morant Cays",
+    "lat": 17.415559,
+    "lon": -75.972068
+  },
+  {
+    "key": "maiden",
+    "name": "Maiden Cay",
+    "lat": 17.9085229,
+    "lon": -76.8103697
+  }
 ]
