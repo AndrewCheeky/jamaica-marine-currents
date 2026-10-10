@@ -40,7 +40,7 @@ def _onto(src_lon,src_lat,src_values,target_lon,target_lat):
 
 
 def indicators(bounds,username,password,chl_lon,chl_lat,chl_date,fetch,grid):
-    result={'sst_date':None,'current_date':None,'sst_fronts':None,'convergence':None,'overlap':None,'notes':[]}
+    result={'sst_date':None,'current_date':None,'sst_fronts':None,'sst_values':None,'convergence':None,'overlap':None,'notes':[]}
     sst_dataset=os.getenv('COPERNICUS_SST_DATASET_ID','cmems_mod_glo_phy-thetao_anfc_0.083deg_P1D-m')
     cur_dataset=os.getenv('COPERNICUS_DATASET_ID','cmems_mod_glo_phy-cur_anfc_0.083deg_PT6H-i')
     try:
@@ -53,6 +53,7 @@ def indicators(bounds,username,password,chl_lon,chl_lat,chl_date,fetch,grid):
         front=_mask_top(g,.94,min_pixels=5)
         if np.isfinite(front).sum()<5:raise ValueError('No coherent thermal fronts')
         result['sst_fronts']=(lo,la,front)
+        result['sst_values']=(lo,la,values)
         result['sst_date']=date
     except Exception as exc:
         result['notes'].append('SST fronts unavailable')

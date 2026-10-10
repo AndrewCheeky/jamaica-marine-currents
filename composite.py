@@ -10,10 +10,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+from matplotlib.lines import Line2D
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib import patheffects as pe
 from PIL import Image
-from scipy.ndimage import gaussian_filter
+from scipy.ndimage import gaussian_filter, distance_transform_edt, binary_opening, binary_closing
 from pelagic import indicators, _mask_top
 from scipy.spatial import cKDTree
 import cartopy.crs as ccrs
@@ -73,13 +74,18 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
         if finite.size<10: raise ValueError('Insufficient chlorophyll pixels for gradient')
         # Relative contour thresholds adapt to real data, not arbitrary fish-potential scores.
         thresholds=np.unique(np.quantile(finite,[.96]))
-        front_mask=_mask_top(gradient,.94,min_pixels=10)
+        front_mask=_mask_top(gradient,.96,min_pixels=12)
+        # Exclude nearshore front artefacts. Distance is measured in native chlorophyll pixels.
+        coast_clear=distance_transform_edt(valid)>=3
+        front_mask=np.where(coast_clear,front_mask,np.nan)
         extra=indicators(bounds,username,password,lon,lat,chl_date,_fetch,_grid)
         zoo=None; zoo_date=None; zoo_error=None
-        zoo_dataset=os.getenv('COPERNICUS_ZOO_DATASET_ID','cmems_mod_glo_bgc-bio_anfc_0.25deg_P1D-m')
+        zoo_dataset=os.getenv('COPERNICUS_ZOO_DATASET_ID','cmems_mod_glo_bgc-plankton_anfc_0.25deg_P1D-m')
         zoo_variable=os.getenv('COPERNICUS_ZOO_VARIABLE','zooc')
         try:
-            zlons,zlats,zvalues,zoo_date=_grid(_fetch(zoo_dataset,[zoo_variable],bounds,username,password,days=5),zoo_variable)
+            zlons,zlats,zvalues,zoo_date=_grid(_fetch(zoo_dataset,[zoo_variable],bounds,username,password,days=30),zoo_variable)
+            if abs((np.datetime64(zoo_date)-np.datetime64(chl_date)).astype('timedelta64[D]').astype(int))>10:
+                raise ValueError('Zooplankton model date differs by more than 10 days from chlorophyll observation')
             zvalid=np.isfinite(zvalues)&(zvalues>=0)
             if zvalues.shape!=(len(zlats),len(zlons)) or np.count_nonzero(zvalid)<10:
                 raise ValueError('Insufficient zooplankton grid values')
@@ -105,6 +111,22 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
             ax.contour(slon,slat,np.isfinite(sg).astype(float),levels=[.5],
                        colors=['#ffb347'],linewidths=1.5,
                        transform=ccrs.PlateCarree(),zorder=3)
+        if extra.get('sst_values') is not None:
+            tlo,tla,tvalues=extra['sst_values']
+            tvalid=tvalues[np.isfinite(tvalues)]
+            if tvalid.size>12:
+                low=int(np.ceil(np.nanpercentile(tvalid,10)))
+                high=int(np.floor(np.nanpercentile(tvalid,90)))
+                levels=list(range(low,high+1))
+                if len(levels)>5:levels=levels[::2]
+                if levels:
+                    try:
+                        isotherms=ax.contour(tlo,tla,np.ma.masked_invalid(tvalues),levels=levels,
+                            colors='#ffc98c',linewidths=.65,alpha=.60,
+                            transform=ccrs.PlateCarree(),zorder=2)
+                        ax.clabel(isotherms,fmt=lambda x:f'{x:.0f}°C',inline=True,
+                            fontsize=7,colors='#ffe6bc')
+                    except ValueError:pass
         if extra['convergence'] is not None:
             clon,clat,cg=extra['convergence']
             ax.contour(clon,clat,np.isfinite(cg).astype(float),levels=[.5],
@@ -158,8 +180,18 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
         cax=fig.add_axes([.63,.075,.29,.023]); cb=fig.colorbar(mesh,cax=cax,orientation='horizontal')
         cb.ax.tick_params(colors='white',labelsize=8);cb.outline.set_edgecolor('white')
         fig.text(.63,.108,'Chlorophyll-a (mg/m³) · log scale',color='white',fontsize=9)
-        fig.text(.12,.10,'White: chl fronts | Orange: SST fronts | Cyan: convergence | Magenta: zoo | Gold rings: overlapping fronts',color='white',fontsize=9)
-        fig.text(.12,.07,'Environmental indicators only. Not a fish-location forecast. Not for navigation.',color='#cbd5e1',fontsize=8)
+        handles=[Line2D([0],[0],color='white',lw=2,label='Chlorophyll front'),
+                 Line2D([0],[0],color='#ffb347',lw=2,label='SST front'),
+                 Line2D([0],[0],color='#48f0ec',lw=2,ls='--',label='Surface convergence'),
+                 Line2D([0],[0],color='#ed75ff',lw=2,ls='--',label='Zooplankton (model)'),
+                 Line2D([0],[0],color='#ffdf65',marker='o',markersize=7,
+                        markerfacecolor='none',linestyle='None',label='Nearby overlapping fronts')]
+        fig.legend(handles=handles,loc='lower left',bbox_to_anchor=(.115,.112),
+                   ncol=3,frameon=False,labelcolor='white',fontsize=8.2,
+                   handlelength=2.1,columnspacing=1.25)
+        fig.text(.12,.053,'Outlines mark strong transitions, NOT productive interiors. Nearshore fronts may be unreliable.',
+                 color='#dce9f6',fontsize=8)
+        fig.text(.12,.031,'Environmental indicators only. No fish-location prediction. Not for navigation.',color='#cbd5e1',fontsize=8)
         temp=out/'chlorophyll-latest.tmp.png'
         try:
             fig.savefig(temp,facecolor=fig.get_facecolor(),dpi=145)
@@ -173,7 +205,7 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
                 'composite':True,'sst_date':extra['sst_date'],'current_date':extra['current_date'],
                 'sst_status':'available' if extra['sst_fronts'] is not None else 'unavailable',
                 'convergence_status':'available' if extra['convergence'] is not None else 'unavailable',
-                'overlap_front_markers':overlap_count}
+                'overlap_front_markers':overlap_count,'legend_version':2,'zooplankton_error':zoo_error}
         metadata.write_text(json.dumps(result,indent=2))
         print('Copernicus composite: chlorophyll',chl_date,'zooplankton',zoo_date or 'unavailable')
         return result

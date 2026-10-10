@@ -65,3 +65,11 @@ The former Chlorophyll-a Fishing Composite dropdown entry is now **Pelagic Fishi
 - The original 13 bank markers, marine maps, USF FAD, Met Office embeds, and non-navigation disclaimer remain.
 
 **Deployment check:** After running GitHub Actions, inspect `forecast.json` -> `chlorophyll` for `sst_status`, `convergence_status`, `zooplankton_status`, and their dates. Look for `WARNING: pelagic` and `WARNING: optional zooplankton` in the logs. The new extra requests may increase run time and Copernicus quota usage. No live credentials or marine data were available for end-to-end verification in this build environment.
+
+
+## v3.8.17 Pelagic map improvements
+- Correct Copernicus daily zooplankton dataset: `cmems_mod_glo_bgc-plankton_anfc_0.25deg_P1D-m`, variable `zooc` (mmol/m³).
+- Separate source observation dates; optional zooplankton omitted if more than 10 days apart from chlorophyll observation.
+- Fewer chlorophyll-front artefacts near land, clearer in-map legend, labelled SST isotherms (°C), and interpretation note.
+- GitHub repository variable `COPERNICUS_ZOO_DATASET_ID`, if explicitly configured, overrides the workflow default. Remove or update an old repository variable to use the correct dataset.
+- No live Copernicus test performed in the build environment.
