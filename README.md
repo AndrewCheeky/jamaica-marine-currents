@@ -30,3 +30,20 @@ The marker now uses `site/assets/fish-pin.png` with a cropped transparent backgr
 - Public-facing header omits provider branding; data provenance remains in forecast.json and README for transparency and licensing review.
 - Only bank coordinates in banks.json appear. Populate all 13 verified banks before production.
 - Run a **fresh** GitHub Actions workflow, not a rerun of the earlier successful run, to avoid duplicate github-pages artifacts.
+
+## Latest update: 10 px icon + colour/arrow legend
+- Uses the user's supplied transparent `site/assets/fish-pin.png` and scales it to fit **within 10×10 pixels** on the output map.
+- Colour legend labels current speeds in knots (blue slower, yellow/red faster).
+- White arrowheads point in the direction the current moves; vector magnitude scales with current speed.
+- The existing georeferenced Natural Earth land raster is retained. It is a low-resolution Earth image, **not commercial high-resolution satellite imagery**. Higher-resolution satellite imagery requires a separately licensed raster tile source.
+- The workflow is otherwise unchanged. **Start a new workflow run** rather than re-running an old run to avoid duplicate `github-pages` artifacts.
+- The initial `banks.json` only contains two verified banks; replace it with all 13 before interpreting markers as complete.
+
+## v3.8.5 white-land + 13 × 20 px fish pins (current revision)
+- Jamaica and other land areas are **plain white**, masking ocean currents; no satellite imagery is used.
+- `site/assets/fish-pin.png` is the supplied transparent fish-pin, resized to **13 × 20 px**.
+- Each plotted bank marker is drawn at **13 × 20 output pixels** (not 10 × 10).
+- The current-speed colourbar is in **knots**; white arrows indicate **the direction water moves toward**, with arrow length representing relative velocity.
+- Bank names and positions still come only from `banks.json` (currently two verified examples, not all 13).
+- To install: upload the contents to the repository root, overwriting `generate.py`, `README.md`, and `site/assets/fish-pin.png`. Keep `.github/workflows/currents.yml`. Then launch **a new workflow run**, not a rerun of the same run.
+- Cartopy Natural Earth 10m land polygons require a first-run download. The map is a forecast visualization, **not for navigation**.
