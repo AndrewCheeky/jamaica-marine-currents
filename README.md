@@ -1,11 +1,3 @@
-# v3.8.21: GEBCO 2026 bathymetry included
-
-This release bundles the user-provided Jamaica regional GEBCO 2026 NetCDF grid as `jamaica.nc`. GitHub Actions uses `GEBCO_GRID_PATH=jamaica.nc` to draw actual **100, 200, 500, 1,000 and 2,000 metre** isobaths, where those depths intersect the region. The toggle is shown on the **Pelagic Fishing Intelligence Map**. It defaults to off and swaps to a second rendered composite when enabled. No daily bathymetry API call is needed.
-
-Upload all files including `jamaica.nc` to the repository root, keeping `.github/workflows/currents.yml` and `site/` structure. Trigger GitHub Actions and verify the `GEBCO bathymetry contours generated` log line. If the GEBCO grid cannot be processed, the original composite remains usable and the toggle is disabled.
-
-**Data:** GEBCO 2026 Grid regional subset provided by the user. Credit: GEBCO Compilation Group (2026), GEBCO 2026 Grid, https://www.gebco.net/. Refer to the grid's metadata for the authoritative citation and licensing. Not for navigation. These contours are regional model/grid estimates, not hydrographic survey soundings.
-
 # v3.8.19: Optional Bathymetric Contours
 
 The Pelagic Fishing Intelligence map now has a checkbox to toggle a second image with generalized ocean-depth boundaries at 200, 500, 1,000 and 2,000 metres, where available. Source: **Natural Earth 1:10m bathymetry**, not GEBCO. The same already-fetched ocean data is used for both images, with no additional Copernicus API requests. Cartopy downloads Natural Earth shape files during the GitHub Action when not cached. If unavailable, the original pelagic map remains usable and the checkbox is disabled. Natural Earth polygons depict generalized depth zones, not high-resolution sounding lines. Not for navigation.
@@ -94,22 +86,3 @@ The former Chlorophyll-a Fishing Composite dropdown entry is now **Pelagic Fishi
 - **Important:** 7DAY MEAN is a *proxy* for sustained floating-algae presence, **not** a count of detected days. No red/orange/yellow day-count classifications are made. Computing verified multi-day detections requires a series of individual georeferenced daily observations, coverage masks and drift-aware matching, which are not supplied by the current FAD image downloader.
 - All existing marine forecasts, Pelagic Intelligence, Sargassum FAD 1DAY/7DAY, and Met Office panels remain unchanged.
 - Validation: local syntax, embedded HTML/JS structural checks, and ZIP integrity. Live USF refresh must be checked in GitHub Actions.
-
-
-## v3.8.20: 100 m bathymetry support
-
-The bathymetry checkbox now lists **100, 200, 500, 1,000 and 2,000 m**.
-The existing Natural Earth depth boundaries are retained. A true **100 m**
-contour is drawn **only when a regional GEBCO NetCDF grid is available**.
-This release does not ship a GEBCO grid, and without one the 100 m contour
-will not be rendered; the other depth boundaries continue to work.
-
-1. Download a Jamaica regional GEBCO elevation NetCDF subset from
-   https://download.gebco.net/ (include the full map bounding box).
-2. Place the file on the workflow runner and set `GEBCO_GRID_PATH` to its
-   filesystem path before running `python generate.py`. For example, place
-   the grid at `data/gebco_jamaica.nc` and set `GEBCO_GRID_PATH=data/gebco_jamaica.nc`.
-3. The map metadata `bathymetry_depths_m` lists the contours actually drawn.
-   The UI never reports 100 m as available if it was not generated.
-
-GEBCO is for contextual ocean-floor interpretation, **not navigation**.
