@@ -21,3 +21,12 @@ After first successful live map: verify all 13 banks, add Google Apps Script lin
 
 ## Branding and marker update
 The marker now uses `site/assets/fish-pin.png` with a cropped transparent background. The map and visible webpage do not prominently identify the data provider. Before public/commercial distribution, verify and satisfy applicable Copernicus Marine attribution requirements in an appropriate legal/credits location.
+
+## v3.8.5 satellite-map refresh
+- Fish-pin artwork is the user-supplied transparent PNG, rendered about 10 pixels wide (aspect ratio preserved).
+- Jamaica land imagery uses Cartopy's georeferenced Natural Earth stock raster, rather than a plain white/solid land fill. It is lower resolution than commercial satellite tiles; true high-resolution satellite imagery requires a separate licensed imagery source.
+- Current-speed shading uses the **real downloaded Copernicus grid**, not the illustrative AI mockup.
+- Includes current-speed colourbar in knots, current-direction arrow key, north indicator, and approximate 100 km scale bar at latitude 16.35 N.
+- Public-facing header omits provider branding; data provenance remains in forecast.json and README for transparency and licensing review.
+- Only bank coordinates in banks.json appear. Populate all 13 verified banks before production.
+- Run a **fresh** GitHub Actions workflow, not a rerun of the earlier successful run, to avoid duplicate github-pages artifacts.
