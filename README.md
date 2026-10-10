@@ -51,3 +51,17 @@ The active Chlorophyll-a dropdown now displays a **single composite image**:
 Environment variables `COPERNICUS_ZOO_DATASET_ID` and `COPERNICUS_ZOO_VARIABLE` can override the tentative defaults (`cmems_mod_glo_bgc-bio_anfc_0.25deg_P1D-m`, `zooc`). Confirm these against the accessible Copernicus catalogue and the dataset's actual variables. The zooplankton product may be unavailable, renamed, or have different units. The renderer deliberately avoids asserting units for this optional field until confirmed. If zooplankton retrieval fails, chlorophyll and its gradients still render, and the UI explicitly says zooplankton is unavailable. No phytoplankton functional-type layer is included: it would require a separately verified source and interpretation.
 
 **Validation:** Python compilation and archive integrity tested locally; live Copernicus credentials and data access not available in this environment. Do not interpret the illustrative mockup from the chat as measured data. No synthetic data is used in the generator.
+
+
+## v3.8.16 Pelagic Fishing Intelligence Map
+The former Chlorophyll-a Fishing Composite dropdown entry is now **Pelagic Fishing Intelligence Map · Copernicus**. It is a single generated PNG, not an additional browser-side map engine.
+
+- Satellite-derived chlorophyll-a is the background. Strong, coherent chlorophyll-gradient areas are outlined in white. Coastal and isolated artifacts are suppressed.
+- Orange outlines show stronger surface-temperature fronts from the existing Copernicus temperature model, when data is available and within four calendar days of the chlorophyll observation.
+- Cyan dashed outlines indicate potential surface-current convergence inferred from negative horizontal divergence of Copernicus model surface velocities. This is a proxy, not an observed aggregation of baitfish.
+- Small gold rings identify locations where the strongest chlorophyll and SST fronts are within approximately 13 km. These are overlaps of **environmental indicators**, not scored fishing hotspots.
+- Magenta contours remain optional for zooplankton. The dataset identifier/variable remain tentative and must be validated independently.
+- All optional layers fail independently. A missing SST, currents, or zooplankton dataset is omitted, not fabricated. Separate dates and availability flags are recorded in `site/chlorophyll.json` and `site/forecast.json`.
+- The original 13 bank markers, marine maps, USF FAD, Met Office embeds, and non-navigation disclaimer remain.
+
+**Deployment check:** After running GitHub Actions, inspect `forecast.json` -> `chlorophyll` for `sst_status`, `convergence_status`, `zooplankton_status`, and their dates. Look for `WARNING: pelagic` and `WARNING: optional zooplankton` in the logs. The new extra requests may increase run time and Copernicus quota usage. No live credentials or marine data were available for end-to-end verification in this build environment.
