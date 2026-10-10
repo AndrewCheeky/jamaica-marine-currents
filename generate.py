@@ -117,25 +117,19 @@ ax.text(-74.9, 19.55, 'N ↑', color='white', fontsize=13, weight='bold',
         ha='center', transform=ccrs.PlateCarree(), zorder=9,
         path_effects=[pe.withStroke(linewidth=2, foreground='#061b33')])
 source_time = np.datetime_as_string(ds['time'].values, unit='m') + ' UTC'
-# Layout leaves room for a labelled legend and a source/licence footer.
+# Minimal map: preserve the current-speed color scale and model timestamp, omit explanatory text.
 ax.set_title('JAMAICA MARINE WEATHER  |  OCEAN CURRENTS FORECAST\n'
              + 'Model time: ' + source_time,
              fontsize=15, weight='bold', color='white', pad=17)
 cb = fig.colorbar(mesh, ax=ax, orientation='horizontal', fraction=.048,
                   pad=.065, aspect=35, shrink=.78)
-cb.set_label('CURRENT SPEED (knots) — blue: slower  |  yellow/red: faster', color='white', fontsize=11)
+# Keep the visual colour scale and numeric tick marks; no legend caption on the image.
 cb.ax.tick_params(labelcolor='white', colors='white')
 cb.outline.set_edgecolor('white')
-fig.text(.50, .073,
-         'MAGENTA PIN  Fishing bank  |  WHITE ARROWS  Direction water moves toward (longer arrow = faster current)',
-         color='white', ha='center', fontsize=9)
-fig.text(.5, .035,
-         'Forecast snapshot • Not for navigation • Data details and attribution: forecast.json / README',
-         color='#c7d9eb', ha='center', fontsize=8)
 fig.savefig(OUT/'currents.png', bbox_inches='tight', facecolor=fig.get_facecolor())
 plt.close(fig)
 metadata = {'dataset':DATASET,'model_time_utc':source_time,'generated_utc':datetime.now(timezone.utc).isoformat(),
             'target_jamaica':target.isoformat(),'bank_count':len(banks), 'data_provider':'Copernicus Marine', 'display_units':'knots', 'map_basemap':'Plain white land (Natural Earth coastline)', 'map_scale_km':100,'marker_pixels':{'width':13,'height':20},'arrow_meaning':'Direction water moves toward; magnitude proportional to speed'}
 (OUT/'forecast.json').write_text(json.dumps(metadata, indent=2))
-(OUT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jamaica Ocean Currents</title><style>body{font:16px Arial,sans-serif;background:#f4f8fc;color:#12253a;margin:0;padding:18px}main{max-width:1200px;margin:auto}img{width:100%;height:auto;border-radius:10px}small{color:#536879}</style></head><body><main><h1>Jamaica Marine Weather — Ocean Currents</h1><p>Tomorrow's model snapshot — see exact forecast timestamp on the map.</p><img src="currents.png" alt="Jamaica ocean surface-current forecast with fishing bank markers"><p><small>Forecast snapshot, not a six-hour average. Not for navigation.</small></p></main></body></html>''')
+(OUT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jamaica Ocean Currents</title><style>body{font:16px Arial,sans-serif;background:#f4f8fc;color:#12253a;margin:0;padding:18px}main{max-width:1200px;margin:auto}img{width:100%;height:auto;border-radius:10px}small{color:#536879}</style></head><body><main><h1>Jamaica Marine Weather — Ocean Currents</h1><img src="currents.png" alt="Jamaica ocean surface-current forecast with fishing bank markers"><p><small>Copernicus Forecast Model</small></p></main></body></html>''')
 print('Generated:', metadata)

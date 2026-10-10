@@ -47,3 +47,8 @@ The marker now uses `site/assets/fish-pin.png` with a cropped transparent backgr
 - Bank names and positions still come only from `banks.json` (currently two verified examples, not all 13).
 - To install: upload the contents to the repository root, overwriting `generate.py`, `README.md`, and `site/assets/fish-pin.png`. Keep `.github/workflows/currents.yml`. Then launch **a new workflow run**, not a rerun of the same run.
 - Cartopy Natural Earth 10m land polygons require a first-run download. The map is a forecast visualization, **not for navigation**.
+
+## Clean-map revision
+- Website footer: **Copernicus Forecast Model**.
+- Removed explanatory legend captions and extra footer text from generated PNG; retained the numeric current-speed colour scale, bank labels, model timestamp, north arrow, and distance scale.
+- Jamaica land remains plain white. Marker artwork remains 13×20 pixels.
