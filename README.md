@@ -1,6 +1,6 @@
-# Jamaica Marine Weather — v3.8.9 Local Marine Forecast
+# Jamaica Marine Weather — v3.8.10 Local Marine Forecast
 
-Based on the v3.8.8 multilayer GitHub Pages project. Adds a **Local Marine Forecast** section beneath the existing maps with two embedded Weatherproof.fi pages: the type=6 marine bulletin and the marine2.php animated wind forecast. **No Open Original Forecast links** are included. All existing map layers, controls, bank markers, build workflow and Copernicus configuration are retained.
+Based on the v3.8.8 multilayer GitHub Pages project. Includes a **Local Marine Forecast** section beneath the existing maps with two embedded Weatherproof.fi pages: the type=6 marine bulletin and the marine2.php animated wind forecast. **No Open Original Forecast links** are included. All existing map layers, controls, bank markers, build workflow and Copernicus configuration are retained.
 
 ## Deploy
 
@@ -12,3 +12,6 @@ Based on the v3.8.8 multilayer GitHub Pages project. Adds a **Local Marine Forec
 ## Important limitation
 
 The forecast sources are displayed through cross-origin iframes. If Weatherproof.fi blocks framing using `X-Frame-Options` or Content-Security-Policy `frame-ancestors`, browsers will not display the embedded content. A static GitHub Pages website cannot override that restriction. Permission to embed/reuse the source content should be confirmed with its publisher, especially for commercial use. The website does not claim a local update timestamp for those external sources.
+
+## v3.8.10 display text
+The forecast section attributes content to Jamaica Met Office, uses concise panel descriptions, and ends with only “Not for navigation.” No source-opening links are included. Embedded source URLs remain unchanged.
