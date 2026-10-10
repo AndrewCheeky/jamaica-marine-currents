@@ -52,3 +52,10 @@ The marker now uses `site/assets/fish-pin.png` with a cropped transparent backgr
 - Website footer: **Copernicus Forecast Model**.
 - Removed explanatory legend captions and extra footer text from generated PNG; retained the numeric current-speed colour scale, bank labels, model timestamp, north arrow, and distance scale.
 - Jamaica land remains plain white. Marker artwork remains 13×20 pixels.
+
+## v3.8.5 smooth-current rendering and in-map legend
+- Interpolates the existing forecast current-speed grid 5x for display, then lightly blends cell boundaries while respecting missing values. This improves visual smoothness but **does not add real forecast detail or resolution**.
+- Current speed colour scale (knots) and flow-arrow explanation are now inside the **lower-right corner of the actual map**, on a compact semi-transparent panel. They no longer occupy the black area outside the map.
+- White land, the 13 × 20 px transparent fish-pin, forecast timestamps, and the Copernicus dataset retrieval remain unchanged.
+- Requires SciPy (added to requirements.txt).
+- Workflow unchanged. Start a **new** workflow_dispatch run instead of rerunning an old run to avoid duplicate github-pages artifacts.

@@ -15,6 +15,8 @@ import cartopy.feature as cfeature
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib import patheffects as pe
 from PIL import Image
+from scipy.ndimage import zoom, gaussian_filter
+from matplotlib.patches import FancyBboxPatch
 import copernicusmarine
 
 ROOT = Path(__file__).parent
@@ -65,9 +67,24 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.set_extent([WEST, EAST, SOUTH, NORTH], crs=ccrs.PlateCarree())
 # Intentionally no land imagery: Jamaica is white as requested.
 max_speed = max(2.0, float(np.nanpercentile(spd, 99)))
-mesh = ax.pcolormesh(lons, lats, spd, transform=ccrs.PlateCarree(),
-                     cmap='turbo', shading='auto', vmin=0, vmax=max_speed,
-                     alpha=.94, zorder=2)
+# Upsample and softly blend the existing model grid for display only.
+# This smooths block edges; it does NOT increase the model's actual resolution.
+# Normalized smoothing respects missing ocean data and avoids treating NaNs as zero.
+valid = np.isfinite(spd)
+filled = np.where(valid, spd, 0.0)
+scale_factor = 5
+hi_value = zoom(filled, scale_factor, order=3, mode='nearest')
+hi_weight = zoom(valid.astype(float), scale_factor, order=1, mode='nearest')
+hi_value = gaussian_filter(hi_value * hi_weight, sigma=1.15)
+hi_weight = gaussian_filter(hi_weight, sigma=1.15)
+hi_spd = np.ma.masked_where(hi_weight < .85,
+                            hi_value / np.maximum(hi_weight, 1e-9))
+hi_lons = np.linspace(float(lons[0]), float(lons[-1]), hi_spd.shape[1])
+hi_lats = np.linspace(float(lats[0]), float(lats[-1]), hi_spd.shape[0])
+mesh = ax.pcolormesh(hi_lons, hi_lats, hi_spd,
+                     transform=ccrs.PlateCarree(), cmap='turbo',
+                     shading='gouraud', vmin=0, vmax=max_speed,
+                     alpha=.96, rasterized=True, zorder=2)
 # White land overlays the ocean current field; no satellite or terrain imagery.
 ax.add_feature(cfeature.LAND.with_scale('10m'), facecolor='white', edgecolor='none', zorder=4)
 ax.coastlines(resolution='10m', linewidth=.85, color='#27465e', zorder=5)
@@ -121,15 +138,28 @@ source_time = np.datetime_as_string(ds['time'].values, unit='m') + ' UTC'
 ax.set_title('JAMAICA MARINE WEATHER  |  OCEAN CURRENTS FORECAST\n'
              + 'Model time: ' + source_time,
              fontsize=15, weight='bold', color='white', pad=17)
-cb = fig.colorbar(mesh, ax=ax, orientation='horizontal', fraction=.048,
-                  pad=.065, aspect=35, shrink=.78)
-# Keep the visual colour scale and numeric tick marks; no legend caption on the image.
-cb.ax.tick_params(labelcolor='white', colors='white')
+# Inset legend INSIDE the map, at lower right (not in the outside black margin).
+# A restrained backdrop prevents the colour scale and its labels from crossing
+# map labels or disappearing against the ocean-current colours.
+legend_panel = FancyBboxPatch((.625, .018), .36, .132,
+    boxstyle='round,pad=0.006,rounding_size=0.014',
+    transform=ax.transAxes, facecolor='#061b33', edgecolor='#ffffff',
+    linewidth=.55, alpha=.88, zorder=20, clip_on=False)
+ax.add_patch(legend_panel)
+ax.text(.65, .119, 'Current speed (knots)', transform=ax.transAxes,
+        color='white', fontsize=9, fontweight='bold', zorder=22)
+legend_ax = ax.inset_axes([.65, .075, .31, .023], zorder=22)
+cb = fig.colorbar(mesh, cax=legend_ax, orientation='horizontal')
+cb.ax.tick_params(labelcolor='white', color='white', labelsize=7,
+                  length=2, pad=2)
 cb.outline.set_edgecolor('white')
+# Arrows show where the water is travelling (not where it comes from).
+ax.text(.65, .031, '→  Current flow direction', transform=ax.transAxes,
+        color='white', fontsize=7.6, zorder=22)
 fig.savefig(OUT/'currents.png', bbox_inches='tight', facecolor=fig.get_facecolor())
 plt.close(fig)
 metadata = {'dataset':DATASET,'model_time_utc':source_time,'generated_utc':datetime.now(timezone.utc).isoformat(),
-            'target_jamaica':target.isoformat(),'bank_count':len(banks), 'data_provider':'Copernicus Marine', 'display_units':'knots', 'map_basemap':'Plain white land (Natural Earth coastline)', 'map_scale_km':100,'marker_pixels':{'width':13,'height':20},'arrow_meaning':'Direction water moves toward; magnitude proportional to speed'}
+            'target_jamaica':target.isoformat(),'bank_count':len(banks), 'data_provider':'Copernicus Marine', 'display_units':'knots', 'map_basemap':'Plain white land (Natural Earth coastline)', 'map_scale_km':100,'marker_pixels':{'width':13,'height':20},'arrow_meaning':'Direction water moves toward; magnitude proportional to speed', 'rendering':'5x display upsampling and normalized Gaussian blending; native model resolution unchanged', 'legend_location':'in-map lower-right'}
 (OUT/'forecast.json').write_text(json.dumps(metadata, indent=2))
 (OUT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jamaica Ocean Currents</title><style>body{font:16px Arial,sans-serif;background:#f4f8fc;color:#12253a;margin:0;padding:18px}main{max-width:1200px;margin:auto}img{width:100%;height:auto;border-radius:10px}small{color:#536879}</style></head><body><main><h1>Jamaica Marine Weather — Ocean Currents</h1><img src="currents.png" alt="Jamaica ocean surface-current forecast with fishing bank markers"><p><small>Copernicus Forecast Model</small></p></main></body></html>''')
 print('Generated:', metadata)
