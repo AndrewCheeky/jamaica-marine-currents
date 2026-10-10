@@ -1,34 +1,20 @@
-# Jamaica Marine Weather — Ocean Currents v3.8.6
+# Jamaica Marine Weather — v3.8.8 multi-layer overlays
 
-## New in this release
-- Three **independently generated** model snapshots: **Current**, **Tomorrow** and **Weekend**. Each is selected from actual available Copernicus model timestamps; no relabeling of one image.
-- Website forecast selector shows the exact model timestamp in **Jamaica local time**.
-- Scheduled refreshes four times daily, at approximately **12:15 AM, 6:15 AM, 12:15 PM, 6:15 PM Jamaica time** (GitHub scheduled runs can be delayed).
-- Maintains all 13 spreadsheet locations, fish-pin, white land, 5x blended display, and in-map speed scale.
-- Existing `currents.png` retained as a compatibility alias for Tomorrow's forecast.
+Adds a dropdown to the existing Copernicus GitHub Pages map: **Ocean Currents**, **Sea Surface Temperature**, and **Wave Height & Direction**. Current / Tomorrow / Weekend remain available, along with all 13 fishing-bank markers, white land, Jamaica local model timestamps, last-updated footer, and the existing ocean-current image paths. Phases 2 and 3 are displayed as disabled future choices.
 
-## Installation
-1. Extract ZIP, upload the contents **including `.github/workflows/currents.yml`** to the root of `AndrewCheeky/jamaica-marine-currents` on the `main` branch.
-2. Keep existing GitHub repository secrets `COPERNICUSMARINE_SERVICE_USERNAME` and `COPERNICUSMARINE_SERVICE_PASSWORD`.
-3. Go to **Actions → Generate Jamaica currents maps → Run workflow**. Start a new run, not Re-run jobs on an older run.
-4. Confirm all three `currents-*.png` images and `forecast.json` were generated and the Pages deployment succeeded.
-5. Open `https://andrewcheeky.github.io/jamaica-marine-currents/` and test all three buttons; hard refresh if necessary.
+## Deployment
 
-## Model timing
-- **Current**: model timestamp nearest the generation time (may be a few hours ahead or behind).
-- **Tomorrow**: model timestamp nearest **12 noon Jamaica time tomorrow**.
-- **Weekend**: model timestamp nearest **12 noon Jamaica time on the upcoming Saturday**; on Sunday, uses Sunday noon.
-- If any target has no available model timestamp within 6 hours, the generation job **fails instead of publishing misleading data**. The last successful GitHub Pages deployment remains available.
-- Copernicus data/model availability and GitHub schedule timing are outside this repository's control. Each forecast displays its actual model time.
+1. Back up the working v3.8.7 GitHub repository.
+2. Upload the **contents** of this ZIP to the repository root, replacing existing matching files (including `.github/workflows/currents.yml`). Keep existing repository secrets `COPERNICUSMARINE_SERVICE_USERNAME` and `COPERNICUSMARINE_SERVICE_PASSWORD`.
+3. In GitHub Actions, run **Generate Jamaica marine overlay maps** using **Run workflow**. Review logs and the published Pages URL.
+4. If SST or wave layers report unavailable, check the Copernicus Marine catalogue for your account's correct available forecast dataset IDs and variable names. Configure repository **Variables** `COPERNICUS_SST_DATASET_ID` and `COPERNICUS_WAVES_DATASET_ID` as needed. Default IDs are provisional and have not been live verified.
+5. The existing Apps Script popup still opens the same GitHub Pages URL; no Apps Script changes are needed.
 
-## Deployment safety
-- Does **not** change Google Apps Script or email delivery.
-- Retains all existing `banks.json` coordinates and image assets.
-- Pins are the original 13x20 pixel custom icon.
-- Smoothing changes visualization only; it does not add model resolution.
-- No new secrets or infrastructure required.
-- The Node.js 20 GitHub Actions deprecation warning can be addressed by upgrading pinned actions separately; the workflow keeps the previously working action versions to reduce deployment risk.
+## Operational notes
 
-
-## v3.8.7 — Last updated timestamp
-The existing website footer now includes the actual map generation time, displayed in Jamaica time (UTC−5), read from `forecast.json` `generated_utc`. The forecast model timestamps remain distinct. If metadata cannot be loaded, the footer says “Last updated: unavailable”. No changes to forecast calculations, map style, or scheduled workflow.
+- Scheduled builds remain four per day at 00:15, 06:15, 12:15 and 18:15 Jamaica time.
+- SST uses `thetao` in °C. Wave significant height uses `VHM0` in metres; `VMDR` is the direction waves come **from**, converted to direction of travel for arrows.
+- Current overlay remains mandatory. Optional layers fail gracefully (marked unavailable), without publishing misleading substitute maps.
+- SST model time tolerance is 18h due to daily sampling; other overlays use 6h. All map panels show actual model timestamps.
+- Data interpolation is **visual smoothing only**, not higher-resolution ocean data. Not for navigation.
+- GitHub Pages has no built-in staging: for a no-downtime test, use a separate branch/repository or run `python generate.py` with valid credentials before replacing production.
