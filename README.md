@@ -18,3 +18,6 @@ GitHub Pages is public. This starter publishes only forecast maps and bank names
 
 ## Next stage
 After first successful live map: verify all 13 banks, add Google Apps Script link and popup, and align scheduled generation with the model release cycle.
+
+## Branding and marker update
+The marker now uses `site/assets/fish-pin.png` with a cropped transparent background. The map and visible webpage do not prominently identify the data provider. Before public/commercial distribution, verify and satisfy applicable Copernicus Marine attribution requirements in an appropriate legal/credits location.

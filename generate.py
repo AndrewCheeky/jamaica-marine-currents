@@ -69,12 +69,12 @@ ax.quiver(lons[::step], lats[::step], uvals[::step,::step], vvals[::step,::step]
 # Use the user's icon as the bank marker; the original file is a JPEG and may have a background.
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from PIL import Image
-icon = np.asarray(Image.open(ROOT/'site/assets/fish-pin-original.jpg').convert('RGBA'))
+icon = np.asarray(Image.open(ROOT/'site/assets/fish-pin.png').convert('RGBA'))
 for bank in banks:
     lat, lon = float(bank['lat']), float(bank['lon'])
     if not (SOUTH <= lat <= NORTH and WEST <= lon <= EAST):
         raise ValueError(f'Bank outside map bounds: {bank["name"]}')
-    ab = AnnotationBbox(OffsetImage(icon, zoom=.018), (lon,lat), frameon=False, zorder=6)
+    ab = AnnotationBbox(OffsetImage(icon, zoom=.11), (lon,lat), frameon=False, zorder=6)
     ax.add_artist(ab)
     ax.annotate(bank['name'], (lon,lat), xytext=(7,-10), textcoords='offset points', fontsize=7,
                 color='#172033', fontweight='bold', zorder=7,
@@ -83,11 +83,11 @@ source_time = np.datetime_as_string(ds['time'].values, unit='m') + ' UTC'
 ax.set_title('Jamaica — Surface Ocean Currents\nModel forecast: ' + source_time, fontsize=14, weight='bold')
 cb = fig.colorbar(mesh, ax=ax, fraction=.035, pad=.025)
 cb.set_label('Current speed (knots)')
-fig.text(.5,.02,'Copernicus Marine model data • Not for navigation • Source time shown above', ha='center', fontsize=9)
+fig.text(.5,.02,'Forecast model • Not for navigation • Forecast time shown above', ha='center', fontsize=9)
 fig.savefig(OUT/'currents.png', bbox_inches='tight', facecolor='white')
 plt.close(fig)
 metadata = {'dataset':DATASET,'model_time_utc':source_time,'generated_utc':datetime.now(timezone.utc).isoformat(),
             'target_jamaica':target.isoformat(),'bank_count':len(banks)}
 (OUT/'forecast.json').write_text(json.dumps(metadata, indent=2))
-(OUT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jamaica Ocean Currents</title><style>body{font:16px Arial,sans-serif;background:#f4f8fc;color:#12253a;margin:0;padding:18px}main{max-width:1200px;margin:auto}img{width:100%;height:auto;border-radius:10px}small{color:#536879}</style></head><body><main><h1>Jamaica Ocean Currents</h1><p>Tomorrow's model snapshot — see exact forecast timestamp on the map.</p><img src="currents.png" alt="Jamaica ocean surface-current forecast with fishing bank markers"><p><small>Copernicus Marine model data. Forecast snapshot, not a six-hour average. Not for navigation.</small></p></main></body></html>''')
+(OUT/'index.html').write_text('''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Jamaica Ocean Currents</title><style>body{font:16px Arial,sans-serif;background:#f4f8fc;color:#12253a;margin:0;padding:18px}main{max-width:1200px;margin:auto}img{width:100%;height:auto;border-radius:10px}small{color:#536879}</style></head><body><main><h1>Jamaica Ocean Currents</h1><p>Tomorrow's model snapshot — see exact forecast timestamp on the map.</p><img src="currents.png" alt="Jamaica ocean surface-current forecast with fishing bank markers"><p><small>Forecast snapshot, not a six-hour average. Not for navigation.</small></p></main></body></html>''')
 print('Generated:', metadata)
