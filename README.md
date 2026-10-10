@@ -34,3 +34,9 @@ The previous release incorrectly treated Sargassum as a forecast layer. The page
 ## v3.8.13 interface adjustment
 
 Sargassum now defaults to FAD 7DAY MEAN. Current / Tomorrow / Weekend controls are fully hidden while Sargassum is selected, including when the global navigation flex style is active. They remain available for ocean currents, SST and waves. The HTML template in generate.py is updated so changes persist on each build.
+
+## v3.8.14: Chlorophyll-a (Copernicus Marine)
+
+Enabled **Chlorophyll-a · Copernicus** in the map dropdown. This is a satellite-derived **observation**, not a forecast, so the Current/Tomorrow/Weekend buttons are hidden for this layer. The actual observation date is shown on the map and above it. The daily, gap-free 4 km L4 multi-sensor plankton dataset is `cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D` (product `OCEANCOLOUR_GLO_BGC_L4_NRT_009_102`). Units are mg/m³. Source: https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/services
+
+The generator requests only Jamaica's bounding box and a recent rolling observation window. On retrieval failure, it retains the last verified image and date if available via Actions cache, or displays an unavailable notice. No invented values. Inspect GitHub Actions output for `Copernicus chlorophyll-a:`. Credentials already used by the existing Copernicus maps are reused. The new data retrieval was not tested against live Copernicus credentials in this build environment.
