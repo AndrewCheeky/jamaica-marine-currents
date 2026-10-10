@@ -28,3 +28,7 @@
 - Smoothing changes visualization only; it does not add model resolution.
 - No new secrets or infrastructure required.
 - The Node.js 20 GitHub Actions deprecation warning can be addressed by upgrading pinned actions separately; the workflow keeps the previously working action versions to reduce deployment risk.
+
+
+## v3.8.7 — Last updated timestamp
+The existing website footer now includes the actual map generation time, displayed in Jamaica time (UTC−5), read from `forecast.json` `generated_utc`. The forecast model timestamps remain distinct. If metadata cannot be loaded, the footer says “Last updated: unavailable”. No changes to forecast calculations, map style, or scheduled workflow.
