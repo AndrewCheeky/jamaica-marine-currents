@@ -1,3 +1,11 @@
+# v3.8.21: GEBCO 2026 bathymetry included
+
+This release bundles the user-provided Jamaica regional GEBCO 2026 NetCDF grid as `jamaica.nc`. GitHub Actions uses `GEBCO_GRID_PATH=jamaica.nc` to draw actual **100, 200, 500, 1,000 and 2,000 metre** isobaths, where those depths intersect the region. The toggle is shown on the **Pelagic Fishing Intelligence Map**. It defaults to off and swaps to a second rendered composite when enabled. No daily bathymetry API call is needed.
+
+Upload all files including `jamaica.nc` to the repository root, keeping `.github/workflows/currents.yml` and `site/` structure. Trigger GitHub Actions and verify the `GEBCO bathymetry contours generated` log line. If the GEBCO grid cannot be processed, the original composite remains usable and the toggle is disabled.
+
+**Data:** GEBCO 2026 Grid regional subset provided by the user. Credit: GEBCO Compilation Group (2026), GEBCO 2026 Grid, https://www.gebco.net/. Refer to the grid's metadata for the authoritative citation and licensing. Not for navigation. These contours are regional model/grid estimates, not hydrographic survey soundings.
+
 # v3.8.19: Optional Bathymetric Contours
 
 The Pelagic Fishing Intelligence map now has a checkbox to toggle a second image with generalized ocean-depth boundaries at 200, 500, 1,000 and 2,000 metres, where available. Source: **Natural Earth 1:10m bathymetry**, not GEBCO. The same already-fetched ocean data is used for both images, with no additional Copernicus API requests. Cartopy downloads Natural Earth shape files during the GitHub Action when not cached. If unavailable, the original pelagic map remains usable and the checkbox is disabled. Natural Earth polygons depict generalized depth zones, not high-resolution sounding lines. Not for navigation.
