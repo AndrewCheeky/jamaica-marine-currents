@@ -50,6 +50,45 @@ def _fetch(dataset, variables, bounds, user, password, days=8):
         username=user,password=password)
 
 
+def _draw_gebco_100m(ax, bounds):
+    """Draw a true 100 m isobath from an optional local GEBCO NetCDF grid.
+
+    Never interpolate a fake 100 m boundary from Natural Earth polygons.
+    """
+    grid_path = os.getenv('GEBCO_GRID_PATH', '').strip()
+    if not grid_path or not Path(grid_path).is_file():
+        print('INFO: GEBCO 100 m contour unavailable: configure GEBCO_GRID_PATH to a regional GEBCO NetCDF grid')
+        return False
+    import xarray as xr
+    try:
+        with xr.open_dataset(grid_path) as ds:
+            zname = next((k for k in ('elevation', 'z') if k in ds.data_vars), None)
+            if zname is None: raise ValueError('Missing GEBCO elevation variable')
+            da = ds[zname]
+            xname = next((k for k in ('lon','longitude','x') if k in da.coords), None)
+            yname = next((k for k in ('lat','latitude','y') if k in da.coords), None)
+            if not xname or not yname: raise ValueError('Missing geographic coordinates')
+            west,east,south,north=bounds
+            # Coordinate slicing works for either ascending or descending grids.
+            def subsel(key, lo, hi):
+                vals=da[key].values
+                return slice(lo,hi) if vals[0]<vals[-1] else slice(hi,lo)
+            da=da.sel({xname:subsel(xname,west,east),yname:subsel(yname,south,north)})
+            if da.ndim != 2 or min(da.shape)<3: raise ValueError('Insufficient grid coverage')
+            xs=np.asarray(da[xname].values); ys=np.asarray(da[yname].values)
+            zz=np.asarray(da.values,dtype=float)
+            if not (np.nanmin(zz)<-100<np.nanmax(zz)):
+                raise ValueError('No 100 m depth crossing in supplied region')
+            cs=ax.contour(xs,ys,zz,levels=[-100],colors=['#a8f5e6'],linewidths=1.25,
+                          alpha=.95,transform=ccrs.PlateCarree(),zorder=3.7)
+            ax.clabel(cs,fmt={-100:'100 m'},fontsize=7,inline=True)
+        print('GEBCO 100 m bathymetry contour generated')
+        return True
+    except Exception as exc:
+        print('WARNING: GEBCO 100 m contour unavailable:',str(exc)[:180])
+        return False
+
+
 def _draw_bathymetry(ax, bounds):
     """Natural Earth 10m bathymetry polygon boundaries; never infer sounding precision."""
     levels = [(200, 'K_200'), (500, 'L_500'), (1000, 'J_1000'), (2000, 'I_2000')]
@@ -67,6 +106,8 @@ def _draw_bathymetry(ax, bounds):
             available.append(depth)
         except Exception as exc:
             print('WARNING: bathymetry', depth, 'm unavailable:', str(exc)[:140])
+    if _draw_gebco_100m(ax, bounds):
+        available.insert(0,100)
     return available
 
 
@@ -225,7 +266,7 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
             # additional Copernicus requests. The original remains unchanged.
             bathy_levels=_draw_bathymetry(ax, bounds)
             if bathy_levels:
-                fig.text(.12,.013,'Bathymetry: Natural Earth 10m generalized depth zones (200/500/1000/2000 m). NOT soundings.',
+                fig.text(.12,.013,'Bathymetry: Natural Earth depth zones; 100 m from GEBCO when available. NOT soundings.',
                          color='#b9e7f8',fontsize=7.5)
                 fig.savefig(bathy_tmp,facecolor=fig.get_facecolor(),dpi=145)
                 with Image.open(bathy_tmp) as check: check.verify()
@@ -236,7 +277,7 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
                 'zooplankton_status':'available' if zoo is not None else 'unavailable',
                 'status':'latest_observation','dataset_id':chl_dataset,'zooplankton_dataset_id':zoo_dataset,
                 'composite':True,'bathymetry_image':bathy_image.name if bathy_levels else None,
-                'bathymetry_depths_m':bathy_levels,'bathymetry_source':'Natural Earth 10m generalized bathymetry',
+                'bathymetry_depths_m':bathy_levels,'bathymetry_source':'Natural Earth 10m depth zones; optional GEBCO 100 m isobath',
                 'sst_date':extra['sst_date'],'current_date':extra['current_date'],
                 'sst_status':'available' if extra['sst_fronts'] is not None else 'unavailable',
                 'convergence_status':'available' if extra['convergence'] is not None else 'unavailable',
