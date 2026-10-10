@@ -73,3 +73,12 @@ The former Chlorophyll-a Fishing Composite dropdown entry is now **Pelagic Fishi
 - Fewer chlorophyll-front artefacts near land, clearer in-map legend, labelled SST isotherms (°C), and interpretation note.
 - GitHub repository variable `COPERNICUS_ZOO_DATASET_ID`, if explicitly configured, overrides the workflow default. Remove or update an old repository variable to use the correct dataset.
 - No live Copernicus test performed in the build environment.
+
+
+## v3.8.18 Separate Persistent Weedlines view
+- Adds **Persistent Weedlines · 7-day USF indicator** as a distinct marine overlay option.
+- Reuses the existing published USF FAD 7DAY MEAN image and dated metadata; **no extra satellite requests or synthetic values**.
+- Hides forecast buttons for this observation-only view, and shows an explicit interpretation panel.
+- **Important:** 7DAY MEAN is a *proxy* for sustained floating-algae presence, **not** a count of detected days. No red/orange/yellow day-count classifications are made. Computing verified multi-day detections requires a series of individual georeferenced daily observations, coverage masks and drift-aware matching, which are not supplied by the current FAD image downloader.
+- All existing marine forecasts, Pelagic Intelligence, Sargassum FAD 1DAY/7DAY, and Met Office panels remain unchanged.
+- Validation: local syntax, embedded HTML/JS structural checks, and ZIP integrity. Live USF refresh must be checked in GitHub Actions.
