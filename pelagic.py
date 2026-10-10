@@ -58,7 +58,7 @@ def indicators(bounds,username,password,chl_lon,chl_lat,chl_date,fetch,grid):
         result['notes'].append('SST fronts unavailable')
         print('WARNING: pelagic SST front unavailable:',str(exc)[:200])
     try:
-        ds=_fetch(cur_dataset,['uo','vo'],bounds,username,password,days=3)
+        ds=fetch(cur_dataset,['uo','vo'],bounds,username,password,days=3)
         lo,la,u,date=grid(ds,'uo')
         _,_,v,_=grid(ds,'vo')
         if u.shape!=v.shape or u.shape!=(len(la),len(lo)):raise ValueError('Unexpected current dimensions')
