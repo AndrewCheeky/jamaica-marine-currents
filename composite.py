@@ -19,6 +19,7 @@ from pelagic import indicators, _mask_top
 from scipy.spatial import cKDTree
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from cartopy.io import shapereader
 import copernicusmarine
 
 
@@ -47,6 +48,26 @@ def _fetch(dataset, variables, bounds, user, password, days=8):
         start_datetime=(now-timedelta(days=days)).strftime('%Y-%m-%dT00:00:00'),
         end_datetime=now.strftime('%Y-%m-%dT23:59:59'),
         username=user,password=password)
+
+
+def _draw_bathymetry(ax, bounds):
+    """Natural Earth 10m bathymetry polygon boundaries; never infer sounding precision."""
+    levels = [(200, 'K_200'), (500, 'L_500'), (1000, 'J_1000'), (2000, 'I_2000')]
+    available = []
+    for depth, suffix in levels:
+        try:
+            path = shapereader.natural_earth(resolution='10m', category='physical',
+                                             name='bathymetry_' + suffix)
+            geometries = list(shapereader.Reader(path, bbox=bounds).geometries())
+            if not geometries:
+                continue
+            ax.add_geometries(geometries, crs=ccrs.PlateCarree(), facecolor='none',
+                              edgecolor='#c4e7f4', linewidth=0.7 if depth != 200 else 1.15,
+                              alpha=0.70, zorder=3.6)
+            available.append(depth)
+        except Exception as exc:
+            print('WARNING: bathymetry', depth, 'm unavailable:', str(exc)[:140])
+    return available
 
 
 def generate_composite(out, root, banks, bounds, chl_dataset, username, password):
@@ -193,16 +214,30 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
                  color='#dce9f6',fontsize=8)
         fig.text(.12,.031,'Environmental indicators only. No fish-location prediction. Not for navigation.',color='#cbd5e1',fontsize=8)
         temp=out/'chlorophyll-latest.tmp.png'
+        bathy_image=out/'chlorophyll-bathymetry.png'
+        bathy_tmp=out/'chlorophyll-bathymetry.tmp.png'
+        bathy_levels=[]
         try:
             fig.savefig(temp,facecolor=fig.get_facecolor(),dpi=145)
             with Image.open(temp) as check: check.verify()
             temp.replace(image)
+            # Draw an optional second image from the SAME composite data, without
+            # additional Copernicus requests. The original remains unchanged.
+            bathy_levels=_draw_bathymetry(ax, bounds)
+            if bathy_levels:
+                fig.text(.12,.013,'Bathymetry: Natural Earth 10m generalized depth zones (200/500/1000/2000 m). NOT soundings.',
+                         color='#b9e7f8',fontsize=7.5)
+                fig.savefig(bathy_tmp,facecolor=fig.get_facecolor(),dpi=145)
+                with Image.open(bathy_tmp) as check: check.verify()
+                bathy_tmp.replace(bathy_image)
         finally:
-            plt.close(fig);temp.unlink(missing_ok=True)
+            plt.close(fig);temp.unlink(missing_ok=True);bathy_tmp.unlink(missing_ok=True)
         result={'image':image.name,'observation_date':chl_date,'zooplankton_date':zoo_date,
                 'zooplankton_status':'available' if zoo is not None else 'unavailable',
                 'status':'latest_observation','dataset_id':chl_dataset,'zooplankton_dataset_id':zoo_dataset,
-                'composite':True,'sst_date':extra['sst_date'],'current_date':extra['current_date'],
+                'composite':True,'bathymetry_image':bathy_image.name if bathy_levels else None,
+                'bathymetry_depths_m':bathy_levels,'bathymetry_source':'Natural Earth 10m generalized bathymetry',
+                'sst_date':extra['sst_date'],'current_date':extra['current_date'],
                 'sst_status':'available' if extra['sst_fronts'] is not None else 'unavailable',
                 'convergence_status':'available' if extra['convergence'] is not None else 'unavailable',
                 'overlap_front_markers':overlap_count,'legend_version':2,'zooplankton_error':zoo_error}

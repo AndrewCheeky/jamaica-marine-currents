@@ -1,3 +1,7 @@
+# v3.8.19: Optional Bathymetric Contours
+
+The Pelagic Fishing Intelligence map now has a checkbox to toggle a second image with generalized ocean-depth boundaries at 200, 500, 1,000 and 2,000 metres, where available. Source: **Natural Earth 1:10m bathymetry**, not GEBCO. The same already-fetched ocean data is used for both images, with no additional Copernicus API requests. Cartopy downloads Natural Earth shape files during the GitHub Action when not cached. If unavailable, the original pelagic map remains usable and the checkbox is disabled. Natural Earth polygons depict generalized depth zones, not high-resolution sounding lines. Not for navigation.
+
 # Jamaica Marine Weather — v3.8.10 Local Marine Forecast
 
 Based on the v3.8.8 multilayer GitHub Pages project. Includes a **Local Marine Forecast** section beneath the existing maps with two embedded Weatherproof.fi pages: the type=6 marine bulletin and the marine2.php animated wind forecast. **No Open Original Forecast links** are included. All existing map layers, controls, bank markers, build workflow and Copernicus configuration are retained.
