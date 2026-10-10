@@ -40,3 +40,14 @@ Sargassum now defaults to FAD 7DAY MEAN. Current / Tomorrow / Weekend controls a
 Enabled **Chlorophyll-a · Copernicus** in the map dropdown. This is a satellite-derived **observation**, not a forecast, so the Current/Tomorrow/Weekend buttons are hidden for this layer. The actual observation date is shown on the map and above it. The daily, gap-free 4 km L4 multi-sensor plankton dataset is `cmems_obs-oc_glo_bgc-plankton_nrt_l4-gapfree-multi-4km_P1D` (product `OCEANCOLOUR_GLO_BGC_L4_NRT_009_102`). Units are mg/m³. Source: https://data.marine.copernicus.eu/product/OCEANCOLOUR_GLO_BGC_L4_NRT_009_102/services
 
 The generator requests only Jamaica's bounding box and a recent rolling observation window. On retrieval failure, it retains the last verified image and date if available via Actions cache, or displays an unavailable notice. No invented values. Inspect GitHub Actions output for `Copernicus chlorophyll-a:`. Credentials already used by the existing Copernicus maps are reused. The new data retrieval was not tested against live Copernicus credentials in this build environment.
+
+## v3.8.15 Chlorophyll-a Fishing Composite
+The active Chlorophyll-a dropdown now displays a **single composite image**:
+- Satellite-derived gap-filled daily chlorophyll-a (mg/m³) as the colour background.
+- White contours of the strongest spatial gradients in smoothed log10 chlorophyll, calculated per kilometre from the observed grid. These are potential ocean fronts, **not fish predictions**.
+- Optional dashed magenta contours for higher relative zooplankton carbon biomass from a Copernicus model, when available.
+- Existing fishing-bank markers and independent satellite/model validity dates.
+
+Environment variables `COPERNICUS_ZOO_DATASET_ID` and `COPERNICUS_ZOO_VARIABLE` can override the tentative defaults (`cmems_mod_glo_bgc-bio_anfc_0.25deg_P1D-m`, `zooc`). Confirm these against the accessible Copernicus catalogue and the dataset's actual variables. The zooplankton product may be unavailable, renamed, or have different units. The renderer deliberately avoids asserting units for this optional field until confirmed. If zooplankton retrieval fails, chlorophyll and its gradients still render, and the UI explicitly says zooplankton is unavailable. No phytoplankton functional-type layer is included: it would require a separately verified source and interpretation.
+
+**Validation:** Python compilation and archive integrity tested locally; live Copernicus credentials and data access not available in this environment. Do not interpret the illustrative mockup from the chat as measured data. No synthetic data is used in the generator.
