@@ -182,3 +182,8 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Removed the requested extended explanatory paragraphs from the Info popup, while preserving individual factor ratings and weights.
 - Moved Ocean Eddies immediately after Ocean Currents in the overlay selector.
 - No scoring algorithm changes.
+
+### v3.8.32 — Weekend Saturday target fix
+- Weekend now always selects the upcoming Saturday at 12:00 Jamaica time, including when generated on Sunday.
+- Existing model-time tolerance rejects out-of-range forecast timestamps rather than mislabeling old data.
+- All v3.8.31 Info and Ocean Eddies presentation changes retained.

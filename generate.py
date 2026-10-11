@@ -168,11 +168,11 @@ show();}catch(e){status.textContent='Forecast metadata unavailable; displaying l
 now_local = datetime.now(TZ)
 
 def next_weekend_noon(now):
-    # Upcoming Saturday, or today's Saturday; on Sunday use Sunday noon.
-    if now.weekday() == 6:
-        day = now.date()
-    else:
-        day = (now + timedelta(days=(5-now.weekday()) % 7)).date()
+    # Weekend always targets the next Saturday (including today if Saturday).
+    # Sunday must target the following Saturday, never Sunday's old model data.
+    local_now = now.astimezone(TZ)
+    days_ahead = (5 - local_now.weekday()) % 7
+    day = (local_now + timedelta(days=days_ahead)).date()
     return datetime(day.year, day.month, day.day, 12, tzinfo=TZ)
 
 def forecast_targets(now):
