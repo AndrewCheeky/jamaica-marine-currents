@@ -96,3 +96,14 @@ Based on the user-selected v3.8.19 package (200, 500, 1000, 2000 m bathymetry; n
 - Maps are observational/planning aids, **not for navigation**. The existing Pelagic Intelligence map and bathymetry toggle remain unchanged.
 
 Deployment: upload the ZIP contents to the repository root, preserving `.github/workflows/currents.yml`, commit, and run the workflow. Confirm the GitHub log includes generation of currents/SST and that `forecast.json` contains `fishing_opportunities` and `ocean_eddies`.
+
+## v3.8.21 Fishing Opportunities assessment
+
+- Based on v3.8.20, which itself retained the **v3.8.19** generalized 200/500/1,000/2,000 m bathymetric toggle. No 100 m contours have been added.
+- Adds `opportunity_scoring.py` and a regional `jamaica.nc` GEBCO 2026 grid for **numeric depth assessment only**. The bathymetry overlay on the Pelagic map is unchanged.
+- Fetches the latest available chlorophyll-a numerical grid separately for fishing-bank assessments. This adds an optional Copernicus read. If it fails, scores are calculated only when enough of the other inputs are available; missing data are not counted as zero.
+- Displays a bank-level overall 0–100 index (the highest available species-group score, **not an average**) and separate species-group indices filtered by fishing method, with data completeness for each group.
+- Inputs: SST, local thermal gradient, chlorophyll-a mg/m³, local chlorophyll gradient, surface current knots, GEBCO seabed depth. These are broad heuristic environmental indicators, **not calibrated habitat models or actual catch likelihood**. Weights and species response thresholds are provisional. Weedline and eddy observations are not yet quantitatively assessed, and seabed substrate, protected areas and regulations are not assessed.
+- Each index requires at least 60% of its weighted inputs to be available. Missing factors are excluded from the denominator; scores with poor coverage are suppressed.
+- GEBCO depths are approximate, not navigation soundings. The depth sampled is a nearby grid-cell neighbourhood median, not a verified fishing-bank sounding.
+- This release has not been tested against live Copernicus data or rendered in GitHub Actions. Verify after deployment.
