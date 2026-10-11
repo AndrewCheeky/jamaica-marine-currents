@@ -145,3 +145,11 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Daily numerical SST, chlorophyll and surface-current snapshots accumulate in `site/bank-history.json`, restored across scheduled workflow runs using GitHub Actions cache. First deployment starts with little/no history. Trends only appear with 2+ distinct source dates.
 - Historical snapshots are limited to a rolling 45-day retention and 90 source-date combinations per bank. This is not a backfilled historical dataset. GitHub Actions cache can be evicted or expire; for production-grade durable retention, move history to persistent object storage or a database.
 - All pre-existing maps and site footer are retained.
+
+
+## v3.8.27 · Fishing Conditions Composite and interface layout
+- New **Fishing Conditions Composite** overlay uses the existing pelagic intelligence image, numerical bank conditions and species-method assessments, plus approximate lunar phase as informational context.
+- Moon phase does **not** predict local tides or fish feeding and is not part of the numerical score. Tides, wind, waves, solunar activity and verified eddies are clearly identified as unscored until suitable validated data is integrated.
+- Fishing Opportunities also uses the **Pelagic Fishing Intelligence** image instead of the basic SST/current opportunities image.
+- **Compare all 13 fishing banks** is positioned after **Environmental Opportunity Scores (experimental)**, while the detailed history remains available.
+- All other existing maps and website footer retained.
