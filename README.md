@@ -86,3 +86,13 @@ The former Chlorophyll-a Fishing Composite dropdown entry is now **Pelagic Fishi
 - **Important:** 7DAY MEAN is a *proxy* for sustained floating-algae presence, **not** a count of detected days. No red/orange/yellow day-count classifications are made. Computing verified multi-day detections requires a series of individual georeferenced daily observations, coverage masks and drift-aware matching, which are not supplied by the current FAD image downloader.
 - All existing marine forecasts, Pelagic Intelligence, Sargassum FAD 1DAY/7DAY, and Met Office panels remain unchanged.
 - Validation: local syntax, embedded HTML/JS structural checks, and ZIP integrity. Live USF refresh must be checked in GitHub Actions.
+
+## v3.8.20 Fishing Opportunities and Ocean Eddies
+
+Based on the user-selected v3.8.19 package (200, 500, 1000, 2000 m bathymetry; no 100 m contour).
+
+- **Fishing Opportunities**: separate dropdown map showing SST, surface currents and fishing-bank markers. Select fishing style and one of the 13 banks for approximate SST/current conditions, a local thermal-gradient indicator, potential species groups, and clear limitations. Reuses numerical grids from the existing Current forecast generation, so it does not add a Copernicus request for this feature. It does **not** claim species suitability scores, catch likelihood, verified habitat, or live weedlines at a bank.
+- **Ocean Eddies**: separate optional satellite sea-level anomaly and geostrophic-current map. Default Copernicus dataset `cmems_obs-sl_glo_phy-ssh_nrt_allsat-l4-duacs-0.125deg_P1D`, variables `sla`, `ugos`, `vgos`. May be overridden using the GitHub repository variable `COPERNICUS_EDDY_DATASET_ID`. It shows eddy **context**, not validated individual eddy centres or boundaries. If unavailable, the other maps still publish.
+- Maps are observational/planning aids, **not for navigation**. The existing Pelagic Intelligence map and bathymetry toggle remain unchanged.
+
+Deployment: upload the ZIP contents to the repository root, preserving `.github/workflows/currents.yml`, commit, and run the workflow. Confirm the GitHub log includes generation of currents/SST and that `forecast.json` contains `fishing_opportunities` and `ocean_eddies`.
