@@ -158,3 +158,10 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Fishing Opportunities also uses the **Pelagic Fishing Intelligence** image instead of the basic SST/current opportunities image.
 - **Compare all 13 fishing banks** is positioned after **Environmental Opportunity Scores (experimental)**, while the detailed history remains available.
 - All other existing maps and website footer retained.
+
+
+### v3.8.29 — Map information popups
+
+- Added a discreet right-aligned **About this map** control above the main map image.
+- Provides map-specific plain-language explanations for all eight selectable overlays, including practical uses and limitations.
+- Accessible modal dialog with keyboard Escape and close button; no changes to data, imagery or forecast calculations.
