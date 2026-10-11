@@ -196,7 +196,7 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
                 ax.add_artist(AnnotationBbox(OffsetImage(icon,zoom=1),(x,y),xycoords='data',frameon=False,pad=0,zorder=7))
                 label=ax.annotate(bank['name'],(x,y),xytext=(8,-8),textcoords='offset points',fontsize=7.2,color='white',fontweight='bold',zorder=8)
                 label.set_path_effects([pe.withStroke(linewidth=2.6,foreground='#07182c')])
-        fig.suptitle('JAMAICA  |  PELAGIC FISHING INTELLIGENCE',color='white',fontsize=16,fontweight='bold',y=.97)
+        fig.suptitle('JAMAICA  |  FISHING INTELLIGENCE',color='white',fontsize=16,fontweight='bold',y=.97)
         fig.text(.12,.91,'Chl: '+chl_date+' | SST: '+(extra['sst_date'] or 'unavailable')+' | Currents: '+(extra['current_date'] or 'unavailable')+' | Zoo: '+(zoo_date or 'unavailable'),color='#e6f1ff',fontsize=10)
         cax=fig.add_axes([.63,.075,.29,.023]); cb=fig.colorbar(mesh,cax=cax,orientation='horizontal')
         cb.ax.tick_params(colors='white',labelsize=8);cb.outline.set_edgecolor('white')

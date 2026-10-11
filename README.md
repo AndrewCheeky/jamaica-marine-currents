@@ -1,3 +1,8 @@
+## v3.8.28 — Map menu cleanup
+- Removed Fishing Conditions Composite from the overlay dropdown.
+- Renamed the Fishing Intelligence map label and generated image heading to omit “Pelagic”.
+- Retained all other overlays, bank comparisons, and local forecast embeds.
+
 ## v3.8.26 display cleanup
 
 - Removed the Data completeness percentage column from the Fishing Opportunities species-score table. Completeness remains an internal scoring safeguard.
