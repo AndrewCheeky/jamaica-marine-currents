@@ -1,6 +1,7 @@
 """Optional observational sea-level anomaly map. No fabricated eddy centers."""
 import os
 from datetime import datetime,timedelta,timezone
+from zoneinfo import ZoneInfo
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -36,7 +37,8 @@ def generate(out,banks,bounds,username,password):
             ax.plot(b['lon'],b['lat'],marker='o',markersize=3.5,color='#ffd166',transform=ccrs.PlateCarree(),zorder=6)
             ax.annotate(b['name'],(b['lon'],b['lat']),xytext=(5,4),textcoords='offset points',color='white',fontsize=6.4,zorder=7,path_effects=[])
         stamp=str(np.datetime_as_string(ds['time'].values,unit='D'))
-        ax.set_title('JAMAICA | OCEAN EDDY CONTEXT\nSatellite sea-level anomaly & geostrophic currents | '+stamp+' UTC',color='white',fontsize=14,pad=18)
+        local_stamp=datetime.fromisoformat(np.datetime_as_string(ds['time'].values,unit='s')+'+00:00').astimezone(ZoneInfo('America/Jamaica')).strftime('%d %b %Y')
+        ax.set_title('JAMAICA | OCEAN EDDY CONTEXT\nSatellite sea-level anomaly & geostrophic currents | '+local_stamp+' Jamaica date',color='white',fontsize=14,pad=18)
         cb=fig.colorbar(im,ax=ax,orientation='horizontal',pad=.035,shrink=.65);cb.set_label('Sea-level anomaly (metres) · blue lower / red higher',color='white');cb.ax.tick_params(colors='white')
         fig.text(.5,.02,'Candidate eddy context, not automated verified eddy detection. Not for navigation.',ha='center',color='white',fontsize=9)
         filename='ocean-eddies.png';fig.savefig(out/filename,bbox_inches='tight',facecolor=fig.get_facecolor());plt.close(fig)

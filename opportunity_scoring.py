@@ -8,23 +8,33 @@ from scipy.ndimage import gaussian_filter
 
 # Heuristic weights sum to 100. A score is suppressed when less than 60% of
 # relevant inputs are available; missing indicators are never assigned zero.
-WEIGHTS = {
- 'mahi': {'sst':25,'thermal_front':20,'chlorophyll':15,'chl_front':15,'current':15,'depth':10},
- 'tuna': {'sst':20,'thermal_front':20,'chlorophyll':20,'chl_front':20,'current':15,'depth':5},
- 'wahoo': {'sst':20,'thermal_front':20,'chlorophyll':10,'chl_front':10,'current':20,'depth':20},
- 'marlin': {'sst':20,'thermal_front':25,'chlorophyll':10,'chl_front':15,'current':20,'depth':10},
- 'snapper': {'sst':5,'thermal_front':5,'chlorophyll':10,'chl_front':5,'current':15,'depth':60},
- 'jacks': {'sst':10,'thermal_front':10,'chlorophyll':10,'chl_front':10,'current':25,'depth':35},
-}
+# Each (species, method) pairing is assessed independently. Weights total 100.
+# Broad heuristics only: no Jamaica catch/effort calibration or habitat verification.
 SPECIES = {
- 'mahi': {'label':'Mahi-mahi','method':'trolling'},
- 'tuna': {'label':'Tuna','method':'trolling'},
- 'wahoo': {'label':'Wahoo','method':'trolling'},
- 'marlin': {'label':'Marlin','method':'trolling'},
- 'snapper': {'label':'Snapper','method':'bottom'},
- 'jacks': {'label':'Jacks','method':'jigging'},
+ 'mahi': 'Mahi-mahi', 'tuna': 'Tuna', 'wahoo': 'Wahoo',
+ 'marlin': 'Marlin', 'snapper': 'Snapper', 'jacks': 'Jacks / amberjack',
+ 'grouper': 'Grouper', 'mackerel': 'King / Spanish mackerel',
 }
 METHODS = {'trolling':'Offshore trolling','jigging':'Vertical jigging','bottom':'Bottom fishing'}
+# Factor order: SST, thermal front, chlorophyll, chlorophyll front, current, depth.
+PROFILES = {
+ ('mahi','trolling'): (25,20,15,15,15,10),
+ ('tuna','trolling'): (20,20,20,20,15,5),
+ ('tuna','jigging'): (15,10,15,15,25,20),
+ ('wahoo','trolling'): (20,20,10,10,20,20),
+ ('wahoo','jigging'): (15,15,10,10,25,25),
+ ('marlin','trolling'): (20,25,10,15,20,10),
+ ('snapper','bottom'): (5,5,10,5,15,60),
+ ('snapper','jigging'): (5,5,10,5,25,50),
+ ('jacks','jigging'): (10,10,10,10,25,35),
+ ('jacks','bottom'): (5,5,10,5,25,50),
+ ('grouper','jigging'): (5,5,10,5,25,50),
+ ('grouper','bottom'): (5,5,10,5,15,60),
+ ('mackerel','trolling'): (25,20,10,15,20,10),
+ ('mackerel','jigging'): (15,15,10,15,30,15),
+}
+FACTORS = ('sst','thermal_front','chlorophyll','chl_front','current','depth')
+WEIGHTS = {f'{species}:{method}': dict(zip(FACTORS,values)) for (species,method),values in PROFILES.items()}
 
 def _range_score(value,low,ideal_lo,ideal_hi,high):
     if value is None or not np.isfinite(value): return None
@@ -109,7 +119,8 @@ def add_scores(info,extra):
             b['depth_m']=_round(_median_near(lat,lon,v,b['lat'],b['lon'],radius=3),0)
         else:b['depth_m']=None
         b['species_scores']={}
-        for species,weights in WEIGHTS.items():
+        for profile,weights in WEIGHTS.items():
+            species,method=profile.split(':')
             sst=b.get('sst_c');cur=b.get('current_knots');dep=b.get('depth_m');c=b.get('chlorophyll_mg_m3')
             # Broad demonstration heuristics; NOT empirically validated habitat thresholds.
             factor={
@@ -118,11 +129,11 @@ def add_scores(info,extra):
                 'chlorophyll':_range_score(c,0.015,0.08,0.6,3) if c is not None else None,
                 'chl_front':(85 if b['chlorophyll_front_nearby'] else 35) if b['chlorophyll_front_nearby'] is not None else None,
                 'current':_range_score(cur,0,0.3,1.8,4) if cur is not None else None,
-                'depth':_depth_score(dep,species),
+                'depth':_depth_score(dep,species,method),
             }
             available=sum(w for k,w in weights.items() if factor[k] is not None)
             score=round(sum(w*factor[k] for k,w in weights.items() if factor[k] is not None)/available) if available>=60 else None
-            b['species_scores'][species]={'score':score,'data_completeness_pct':available,'factors':{k:{'score':factor[k],'weight':w} for k,w in weights.items()},'method':SPECIES[species]['method'],'label':SPECIES[species]['label']}
+            b['species_scores'][profile]={'score':score,'data_completeness_pct':available,'factors':{k:{'score':factor[k],'weight':w} for k,w in weights.items()},'method':method,'species':species,'label':SPECIES[species]}
         b['method_scores']={}
         for method in METHODS:
             valid=[v['score'] for v in b['species_scores'].values() if v['method']==method and v['score'] is not None]
@@ -130,17 +141,20 @@ def add_scores(info,extra):
         all_valid=[(k,v) for k,v in b['species_scores'].items() if v['score'] is not None]
         best=max(all_valid,key=lambda pair:pair[1]['score']) if all_valid else None
         b['overall_score']=best[1]['score'] if best else None
-        b['best_supported_species']=SPECIES[best[0]]['label'] if best else None
-        b['best_method']=METHODS[SPECIES[best[0]]['method']] if best else None
+        b['best_supported_species']=SPECIES[best[0].split(':')[0]] if best else None
+        b['best_method']=METHODS[best[0].split(':')[1]] if best else None
     info['scoring']={'type':'experimental_environmental_opportunity_index','is_catch_probability':False,'calibrated':False,
         'description':'Heuristic environmental suitability only. Not probability of catching fish. Species thresholds and weights are not validated for Jamaica.',
         'minimum_data_completeness_pct':60,'notes':extra['notes']}
     return info
 
-def _depth_score(dep,species):
+def _depth_score(dep,species,method):
     if dep is None:return None
-    if species=='snapper':return _range_score(dep,10,80,350,1200)
+    if species=='snapper':return _range_score(dep,10,60,350,1200)
+    if species=='grouper':return _range_score(dep,10,50,300,1200)
     if species=='jacks':return _range_score(dep,10,80,600,2500)
+    if species=='mackerel':return _range_score(dep,10,50,400,2000)
+    if method=='jigging':return _range_score(dep,20,80,800,3000)
     return _range_score(dep,20,150,1800,5500)
 
 def _round(v,nd=2):return round(v,nd) if v is not None and np.isfinite(v) else None

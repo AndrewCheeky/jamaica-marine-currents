@@ -4,9 +4,9 @@ import numpy as np
 from scipy.ndimage import gaussian_filter
 
 METHODS = {
- 'trolling': {'label':'Offshore trolling','species':'Mahi-mahi, tuna, wahoo, marlin','description':'Review thermal boundaries, currents and floating structure; not a catch forecast.'},
- 'jigging': {'label':'Vertical jigging','species':'Jacks, tuna and other predators','description':'Review bank structure and current speed; subsurface conditions are not measured here.'},
- 'bottom': {'label':'Bottom fishing','species':'Snapper and other bottom-associated fish','description':'Review known bank positions; verified bottom habitat and depth are not included in this assessment.'},
+ 'trolling': {'label':'Offshore trolling','species':'Mahi-mahi, tuna, wahoo, marlin and mackerel','description':'Review thermal boundaries, currents and floating structure; not a catch forecast.'},
+ 'jigging': {'label':'Vertical jigging','species':'Jacks, tuna, grouper, snapper, wahoo and mackerel','description':'Review bank structure and current speed; subsurface conditions are not measured here.'},
+ 'bottom': {'label':'Bottom fishing','species':'Snapper, grouper and jacks','description':'Review known bank positions; verified bottom habitat and depth are not included in this assessment.'},
 }
 
 def build(out, banks):
@@ -62,7 +62,7 @@ def render_map(out,banks):
     for b in banks:
         ax.scatter([b['lon']],[b['lat']],s=20,edgecolors='white',facecolors='#ffcc33',transform=ccrs.PlateCarree(),zorder=6)
         ax.annotate(b['name'],(b['lon'],b['lat']),xytext=(5,4),textcoords='offset points',color='white',fontsize=7,zorder=7)
-    ax.set_title('JAMAICA | FISHING OPPORTUNITIES\nSST and surface currents · Select a fishing bank below the map',color='white',fontsize=14,pad=18)
+    ax.set_title('JAMAICA | FISHING OPPORTUNITIES\nSST and surface currents',color='white',fontsize=14,pad=18)
     cb=fig.colorbar(im,ax=ax,orientation='horizontal',pad=.035,shrink=.65);cb.set_label('Sea surface temperature (°C)',color='white');cb.ax.tick_params(colors='white')
     fig.text(.5,.02,'Environmental context only. Not a fish forecast or navigation chart.',ha='center',color='white',fontsize=9)
     name='fishing-opportunities.png';fig.savefig(out/name,bbox_inches='tight',facecolor=fig.get_facecolor());plt.close(fig)

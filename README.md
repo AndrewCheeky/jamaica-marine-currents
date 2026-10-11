@@ -107,3 +107,27 @@ Deployment: upload the ZIP contents to the repository root, preserving `.github/
 - Each index requires at least 60% of its weighted inputs to be available. Missing factors are excluded from the denominator; scores with poor coverage are suppressed.
 - GEBCO depths are approximate, not navigation soundings. The depth sampled is a nearby grid-cell neighbourhood median, not a verified fishing-bank sounding.
 - This release has not been tested against live Copernicus data or rendered in GitHub Actions. Verify after deployment.
+
+
+## v3.8.22: Multi-method species opportunity indices
+
+- Adds **grouper** and **king / Spanish mackerel** groups. Mackerel is a broad grouping, not a verified species identification at any bank.
+- Allows one species group under multiple methods with independently weighted profiles: tuna, wahoo, snapper, jacks, grouper and mackerel have multiple method profiles.
+- Each species/method pairing is independently scored with its own data-completeness percentage. Existing map filter now shows all profiles for the selected method.
+- Overall and per-method indices remain the highest available supported score, not catch probabilities or averaged species catch rates.
+- Adds the requested footer to the generated website.
+- The six indicators do **not** measure substrate, reef structure, baitfish, regulations, subsurface temperatures or verified species presence. Grouper habitat and mackerel species distinctions are therefore particularly uncertain. Do not treat scores as a recommendation to fish protected or closed species.
+- This release was syntax-checked and subjected to offline sample scoring tests only; live data and GitHub Actions deployment remain unverified.
+
+### v3.8.23 display adjustment
+Fishing Opportunities bank details show observation **dates only** for chlorophyll-a, currents and SST. Underlying timestamp metadata is preserved for model integrity; other map forecast times are unchanged.
+
+
+## v3.8.24 display refinements
+- Fishing Opportunities image no longer instructs users to select a bank below the map.
+- Fishing Intelligence menu label omits the provider name.
+- Fishing Intelligence retrieval/observation metadata is centred above its map.
+- Currents, SST and wave model times are rendered in Jamaica local time (UTC−5 year-round), with a clear gap between time and date. Metadata is also formatted in local time.
+- Ocean Eddies embedded observation date is labelled as a Jamaica-local date; date-only satellite observations elsewhere are unchanged.
+- Animated wind forecast iframe has a dark border matching the maps.
+- Existing scoring, fishing banks and website footer are retained.
