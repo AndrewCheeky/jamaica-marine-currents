@@ -33,6 +33,19 @@ PROFILES = {
  ('mackerel','trolling'): (25,20,10,15,20,10),
  ('mackerel','jigging'): (15,15,10,15,30,15),
 }
+MODEL_VERSION = 'JMM-OPP-2.0.0'
+MODEL_EFFECTIVE_DATE = '2026-10-11'
+# Seasonal migration and lunar/tidal activity are not scored until locally
+# validated species profiles and offshore-bank data are available.
+MODEL_PENDING_FACTORS = ('seasonal_movement', 'tidal_current', 'moon_phase', 'time_of_day', 'wind_waves', 'baitfish')
+FACTOR_DESCRIPTIONS = {
+ 'sst':'Sea-surface temperature relative to a broad favourable range',
+ 'thermal_front':'Whether a stronger nearby sea-temperature boundary is detected',
+ 'chlorophyll':'Satellite chlorophyll concentration as a broad productivity indicator',
+ 'chl_front':'Whether a stronger nearby chlorophyll boundary is detected',
+ 'current':'Surface-current speed relative to a broad favourable range',
+ 'depth':'Approximate seabed depth relative to the species/method profile',
+}
 FACTORS = ('sst','thermal_front','chlorophyll','chl_front','current','depth')
 WEIGHTS = {f'{species}:{method}': dict(zip(FACTORS,values)) for (species,method),values in PROFILES.items()}
 
@@ -133,7 +146,13 @@ def add_scores(info,extra):
             }
             available=sum(w for k,w in weights.items() if factor[k] is not None)
             score=round(sum(w*factor[k] for k,w in weights.items() if factor[k] is not None)/available) if available>=60 else None
-            b['species_scores'][profile]={'score':score,'data_completeness_pct':available,'factors':{k:{'score':factor[k],'weight':w} for k,w in weights.items()},'method':method,'species':species,'label':SPECIES[species]}
+            b['species_scores'][profile]={'score':score,'data_completeness_pct':available,'factors':{k:{'score':factor[k],'weight':w} for k,w in weights.items()},'method':method,'species':species,'label':SPECIES[species],
+                'model_version':MODEL_VERSION,'explanation':{
+                    'formula':'Weighted average of available environmental factor scores; suppressed below 60% weighted input coverage.',
+                    'factor_descriptions':FACTOR_DESCRIPTIONS,
+                    'seasonal_movement':'Not scored: Jamaica-specific monthly movement evidence has not been validated for this species group.',
+                    'fishing_conditions':'Surface current is already included. Tides, moon phase, time of day, wind and waves are not scored without validated local data.',
+                    'catch_probability':'Not calibrated; requires catch and fishing-effort records including trips with no catch.'}}
         b['method_scores']={}
         for method in METHODS:
             valid=[v['score'] for v in b['species_scores'].values() if v['method']==method and v['score'] is not None]
@@ -145,7 +164,10 @@ def add_scores(info,extra):
         b['best_method']=METHODS[best[0].split(':')[1]] if best else None
     info['scoring']={'type':'experimental_environmental_opportunity_index','is_catch_probability':False,'calibrated':False,
         'description':'Heuristic environmental suitability only. Not probability of catching fish. Species thresholds and weights are not validated for Jamaica.',
-        'minimum_data_completeness_pct':60,'notes':extra['notes']}
+        'minimum_data_completeness_pct':60,'notes':extra['notes'],
+        'model_version':MODEL_VERSION,'model_effective_date':MODEL_EFFECTIVE_DATE,
+        'pending_unscored_factors':list(MODEL_PENDING_FACTORS),
+        'history_rule':'Never compare scores from different model versions as an environmental trend.'}
     return info
 
 def _depth_score(dep,species,method):

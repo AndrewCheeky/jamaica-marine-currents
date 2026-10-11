@@ -1,3 +1,13 @@
+# v3.8.30: Transparent species index and model versioning
+
+- Adds a contextual **ⓘ How is this calculated?** button beside every species Index / 100.
+- Shows species/method factor ratings, weights, source observation dates, missing data and scoring model version.
+- Records `JMM-OPP-2.0.0` in generated scoring metadata and each species score.
+- Historical score snapshots carry their scoring version. Comparisons across versions are invalid.
+- Raw SST, chlorophyll and current histories remain independently available.
+- **Scientific safeguard:** Seasonal movements, lunar/solunar effects, offshore tidal currents, daylight and wind/wave effects are explicitly marked **not yet scored** until locally applicable, validated data/rules exist. Existing surface currents are not double counted. No invented catch probabilities.
+- Preserves current map layout, all 13 banks, existing scoring profiles and footer.
+
 ## v3.8.28 — Map menu cleanup
 - Removed Fishing Conditions Composite from the overlay dropdown.
 - Renamed the Fishing Intelligence map label and generated image heading to omit “Pelagic”.

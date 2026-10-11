@@ -101,12 +101,27 @@ if(layer.value==='opportunities'||layer.value==='composite'){
  opportunityDetail.replaceChildren();
  const add=(label,value)=>{const p=document.createElement('p');p.style.margin='5px 0';const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));opportunityDetail.appendChild(p)};
  const h=document.createElement('h3');h.textContent='Environmental Opportunity Scores (experimental)';opportunityDetail.appendChild(h);
+ add('Scoring model version',data?.fishing_opportunities?.scoring?.model_version||'Unknown');
  add('Overall bank opportunity index',b.overall_score===null?'Insufficient data':b.overall_score+'/100');
  add('Best-supported group / method',(b.best_supported_species||'Unavailable')+' / '+(b.best_method||'Unavailable'));
  const ms=b.method_scores?.[fishingMethod.value];add('Selected method index',ms===null||ms===undefined?'Insufficient data':ms+'/100');
  const table=document.createElement('table');table.style.cssText='width:100%;border-collapse:collapse;margin:10px 0';
  const header=document.createElement('tr');['Species group','Index / 100'].forEach(x=>{const th=document.createElement('th');th.textContent=x;th.style.cssText='text-align:left;border-bottom:1px solid #a7bbcc;padding:6px';header.appendChild(th)});table.appendChild(header);
- Object.values(b.species_scores||{}).filter(x=>x.method===fishingMethod.value).sort((a,b)=>(b.score??-1)-(a.score??-1)).forEach(x=>{const tr=document.createElement('tr');[x.label,x.score===null?'Insufficient data':x.score+'/100'].forEach(y=>{const td=document.createElement('td');td.textContent=y;td.style.cssText='padding:6px;border-bottom:1px solid #dae5ed';tr.appendChild(td)});table.appendChild(tr)});opportunityDetail.appendChild(table);
+ Object.values(b.species_scores||{}).filter(x=>x.method===fishingMethod.value).sort((a,b)=>(b.score??-1)-(a.score??-1)).forEach(x=>{
+  const tr=document.createElement('tr');const name=document.createElement('td');name.textContent=x.label;name.style.cssText='padding:6px;border-bottom:1px solid #dae5ed';tr.appendChild(name);
+  const td=document.createElement('td');td.style.cssText='padding:6px;border-bottom:1px solid #dae5ed';
+  const val=document.createElement('span');val.textContent=x.score===null?'Insufficient data':x.score+'/100';td.appendChild(val);
+  const button=document.createElement('button');button.type='button';button.textContent='ⓘ How is this calculated?';button.setAttribute('aria-expanded','false');button.style.cssText='margin-left:10px;font-size:.85em;cursor:pointer';td.appendChild(button);
+  const detail=document.createElement('div');detail.hidden=true;detail.style.cssText='margin:8px 0;padding:10px;border:1px solid #b6cbdc;border-radius:6px;background:#f5f9fc;font-size:.9em';
+  const heading=document.createElement('strong');heading.textContent=x.label+' · '+(method?.label||fishingMethod.value)+' · Model '+(x.model_version||data?.fishing_opportunities?.scoring?.model_version||'unknown');detail.appendChild(heading);
+  const intro=document.createElement('p');intro.textContent='This is an experimental environmental opportunity index, not the chance of catching a fish. Each available indicator receives a 0–100 rating and a method-specific weight. The index is the weighted average; it is withheld when too much information is missing.';detail.appendChild(intro);
+  const names={'sst':'Water temperature','thermal_front':'Temperature boundary','chlorophyll':'Chlorophyll / productivity','chl_front':'Chlorophyll boundary','current':'Surface current','depth':'Water depth'};
+  Object.entries(x.factors||{}).forEach(([key,f])=>{const line=document.createElement('p');line.style.margin='4px 0';line.textContent=(names[key]||key)+': '+(f.score===null?'Not available':f.score+'/100')+' · importance '+f.weight+'%';detail.appendChild(line)});
+  const season=document.createElement('p');season.textContent='Seasonal movement: not included until Jamaica/Caribbean species-specific patterns are validated. Moon, offshore tides, daylight and wind/wave conditions are not yet scored. Surface current is already counted, so it is not counted twice.';detail.appendChild(season);
+  const dates=document.createElement('p');dates.textContent='Source dates: SST '+fmt((b.sst_time_utc||'').slice(0,10))+' · currents '+fmt((b.current_time_utc||'').slice(0,10))+' · chlorophyll '+fmt(b.chlorophyll_date)+'. Depth uses a static seabed grid.';detail.appendChild(dates);
+  const warning=document.createElement('p');warning.textContent='Scores calculated using different model versions must not be interpreted as a trend. Catch probability is not calibrated.';detail.appendChild(warning);
+  button.addEventListener('click',()=>{detail.hidden=!detail.hidden;button.setAttribute('aria-expanded',String(!detail.hidden))});td.appendChild(detail);tr.appendChild(td);table.appendChild(tr)
+ });opportunityDetail.appendChild(table);
  add('SST',format(b.sst_c)+' °C');add('Surface current',format(b.current_knots)+' knots');
  add('Chlorophyll-a',b.chlorophyll_mg_m3===null?'Unavailable':b.chlorophyll_mg_m3+' mg/m³');
  add('Chlorophyll front',b.chlorophyll_front_nearby===null?'Unavailable':b.chlorophyll_front_nearby?'Elevated gradient nearby':'Not elevated');
