@@ -1,3 +1,9 @@
+## v3.8.26 display cleanup
+
+- Removed the Data completeness percentage column from the Fishing Opportunities species-score table. Completeness remains an internal scoring safeguard.
+- Removed bank-selection instruction text from the Fishing Opportunities map image description.
+- Retained the bank comparison, observation freshness and quality indicators, and historical trend charts.
+
 # v3.8.19: Optional Bathymetric Contours
 
 The Pelagic Fishing Intelligence map now has a checkbox to toggle a second image with generalized ocean-depth boundaries at 200, 500, 1,000 and 2,000 metres, where available. Source: **Natural Earth 1:10m bathymetry**, not GEBCO. The same already-fetched ocean data is used for both images, with no additional Copernicus API requests. Cartopy downloads Natural Earth shape files during the GitHub Action when not cached. If unavailable, the original pelagic map remains usable and the checkbox is disabled. Natural Earth polygons depict generalized depth zones, not high-resolution sounding lines. Not for navigation.
@@ -131,3 +137,11 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Ocean Eddies embedded observation date is labelled as a Jamaica-local date; date-only satellite observations elsewhere are unchanged.
 - Animated wind forecast iframe has a dark border matching the maps.
 - Existing scoring, fishing banks and website footer are retained.
+
+
+## v3.8.25: bank comparisons, freshness and history
+- Fishing Opportunities includes a side-by-side table of all configured banks, ranked by selected fishing method, with one-click bank details. Scores remain experimental suitability indices, never catch probabilities.
+- Per-bank model reference dates, satellite observation freshness and core-input availability are displayed. The chlorophyll freshness caution is triggered after 4 days, model reference date caution after 2 days; these are user-interface heuristics, not quality certification.
+- Daily numerical SST, chlorophyll and surface-current snapshots accumulate in `site/bank-history.json`, restored across scheduled workflow runs using GitHub Actions cache. First deployment starts with little/no history. Trends only appear with 2+ distinct source dates.
+- Historical snapshots are limited to a rolling 45-day retention and 90 source-date combinations per bank. This is not a backfilled historical dataset. GitHub Actions cache can be evicted or expire; for production-grade durable retention, move history to persistent object storage or a database.
+- All pre-existing maps and site footer are retained.
