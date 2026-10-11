@@ -175,3 +175,10 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Added a discreet right-aligned **About this map** control above the main map image.
 - Provides map-specific plain-language explanations for all eight selectable overlays, including practical uses and limitations.
 - Accessible modal dialog with keyboard Escape and close button; no changes to data, imagery or forecast calculations.
+
+
+### v3.8.31 interface refinement
+- Changed the species-index explanation button to `ⓘ Info`.
+- Removed the requested extended explanatory paragraphs from the Info popup, while preserving individual factor ratings and weights.
+- Moved Ocean Eddies immediately after Ocean Currents in the overlay selector.
+- No scoring algorithm changes.
