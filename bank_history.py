@@ -1,4 +1,4 @@
-"""Maintain a compact observation-date-indexed history in the GitHub Actions cache.
+"""Maintain a compact observation-date-indexed history in persistent GitHub storage.
 This is an accumulating history from deployment, not a retrospective archive.
 """
 import json
@@ -15,7 +15,8 @@ def update(path,banks,days=45):
     for bank in banks:
         key=bank['key'];rows=store.get(key,[])
         if not isinstance(rows,list):rows=[]
-        row={'sst_date':str(bank.get('sst_time_utc') or '')[:10],
+        row={'collected_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds'),
+             'sst_date':str(bank.get('sst_time_utc') or '')[:10],
              'current_date':str(bank.get('current_time_utc') or '')[:10],
              'chlorophyll_date':str(bank.get('chlorophyll_date') or '')[:10]}
         row.update({f:bank.get(f) for f in FIELDS})
@@ -33,6 +34,7 @@ def update(path,banks,days=45):
         if any(row[f] is not None for f in FIELDS) and any(row.values()):
             previous=next((r for r in rows if identity(r)==identity(row)),None)
             if previous:
+                previous['last_checked_at_utc']=row['collected_at_utc']
                 for f in FIELDS:
                     if previous.get(f) is None and row[f] is not None:previous[f]=row[f]
                 if previous.get('score_model_version')==row['score_model_version']:

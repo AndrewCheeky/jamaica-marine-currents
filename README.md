@@ -157,7 +157,7 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 ## v3.8.25: bank comparisons, freshness and history
 - Fishing Opportunities includes a side-by-side table of all configured banks, ranked by selected fishing method, with one-click bank details. Scores remain experimental suitability indices, never catch probabilities.
 - Per-bank model reference dates, satellite observation freshness and core-input availability are displayed. The chlorophyll freshness caution is triggered after 4 days, model reference date caution after 2 days; these are user-interface heuristics, not quality certification.
-- Daily numerical SST, chlorophyll and surface-current snapshots accumulate in `site/bank-history.json`, restored across scheduled workflow runs using GitHub Actions cache. First deployment starts with little/no history. Trends only appear with 2+ distinct source dates.
+- Daily numerical SST, chlorophyll and surface-current snapshots accumulate in `site/bank-history.json`, restored from and committed to the `marine-observation-history` branch on every successful scheduled workflow run. First deployment starts with little/no history. Trends only appear with 2+ distinct source dates.
 - Historical snapshots are limited to a rolling 45-day retention and 90 source-date combinations per bank. This is not a backfilled historical dataset. GitHub Actions cache can be evicted or expire; for production-grade durable retention, move history to persistent object storage or a database.
 - All pre-existing maps and site footer are retained.
 
@@ -187,3 +187,10 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Weekend now always selects the upcoming Saturday at 12:00 Jamaica time, including when generated on Sunday.
 - Existing model-time tolerance rejects out-of-range forecast timestamps rather than mislabeling old data.
 - All v3.8.31 Info and Ocean Eddies presentation changes retained.
+
+### v3.8.33 — Durable observation history
+- `history_storage.py` restores `bank-history.json` from the dedicated `marine-observation-history` branch before generation and commits updated history after generation. No Cloudflare service is required.
+- GitHub Actions needs **Settings → Actions → General → Workflow permissions → Read and write permissions** (or an organization policy allowing `contents: write`).
+- The first run creates the history branch automatically; previously lost cache-only observations cannot be reconstructed.
+- Collection timestamps are recorded separately from the environmental source dates; trends still require two distinct source dates.
+- History restoration and persistence failures stop the workflow rather than silently resetting saved history.
