@@ -1,47 +1,27 @@
-# Deploy the complete Jamaica Fishing Intelligence repository
+# Deploy Jamaica Fishing Intelligence v3.8.42 (visible-file package)
 
-This ZIP contains **all repository files**, including the hidden `.github/workflows/currents.yml` file. It is not a patch.
+**All 23 files in this ZIP are visible.** The GitHub Actions workflow is included as `github-workflows/currents.yml` rather than a hidden file.
 
-## Recommended: use Git to replace the repository contents
+**GitHub requires `.github/workflows/currents.yml` to execute Actions.** The supplied `install_workflow.py` creates that required hidden directory automatically. Simply uploading the ZIP through GitHub's web interface will NOT activate the workflow. You must run the installer and commit the generated workflow through Git.
 
-1. Back up the `main` branch and the separate `marine-observation-history` branch before deployment. Do **not** delete the history branch.
-2. Clone the existing repository:
+## Deployment using Git (Mac, Windows or Linux)
 
-   ```bash
-   git clone https://github.com/AndrewCheeky/jamaica-marine-currents.git
-   cd jamaica-marine-currents
-   ```
+1. Back up your existing `main` branch and **do not delete** `marine-observation-history`.
+2. Clone the repository: `git clone https://github.com/AndrewCheeky/jamaica-marine-currents.git`.
+3. Extract the ZIP to a temporary folder and copy its **visible** contents into the cloned `jamaica-marine-currents` folder, overwriting files. Do not remove the `.git` directory.
+4. In Terminal, open the cloned repository folder and run:
 
-3. Extract this ZIP into a **separate temporary folder**. Copy all extracted files and folders, including the hidden `.github` directory, into the clone, overwriting existing files. Do not overwrite or delete the clone's `.git` directory. Check for obsolete tracked files separately; a normal copy does not remove them.
-4. Confirm `.github/workflows/currents.yml` now contains `contents: write`, `Restore persistent history`, and `Save and verify persistent history`.
-5. Commit and push:
-
-   ```bash
-   git add -A
-   git commit -m "Deploy Fishing Intelligence v3.8.41 with persistent history workflow"
-   git push origin main
-   ```
-
-6. Open GitHub > Actions > Generate Jamaica currents map > Run workflow (main).
-7. Confirm the run includes **Run regression tests**, **Restore persistent history**, **Generate current map**, **Save and verify persistent history**, then **Deploy to Pages**.
-8. Confirm logs contain `HISTORY RESTORE`, `HISTORY SAVE`, and `HISTORY VERIFY` (the first run may say the history branch did not yet exist). Run the workflow again to verify restoration from the saved branch.
-
-## Permissions
-
-The workflow declares:
-
-```yaml
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+```bash
+python3 install_workflow.py
+python3 -m unittest discover -s tests -v
+git add -A
+git commit -m "Deploy Jamaica Fishing Intelligence v3.8.42"
+git push origin main
 ```
 
-Repository or organization policy may still restrict writes. Verify GitHub Settings > Actions > General > Workflow permissions.
+5. On GitHub, open `.github/workflows/currents.yml` and confirm it includes `contents: write`, `Restore persistent history`, `Save and verify persistent history`.
+6. Run **Actions → Generate Jamaica currents map → Run workflow**. Check the restore, save and verification logs. Run it a second time to verify that history is restored.
 
-## Important safeguards
+**Important:** `github-workflows/currents.yml` is a visible master copy. GitHub executes only `.github/workflows/currents.yml`. If you edit the visible master later, rerun `python3 install_workflow.py` and commit both files.
 
-- Keep `marine-observation-history` intact. The dedicated branch is **not** meant to be copied into the main repository ZIP.
-- The first run can initialize history; it cannot restore observations that were never stored.
-- An Actions run failing during history restore/save should be investigated; do not disable the history steps just to get a green deployment.
-- The ZIP is locally validated, but remote GitHub writes and live deployment require an actual Actions run.
+The workflow may need repository **Settings → Actions → General → Workflow permissions → Read and write permissions**. GitHub policies can override requested permissions.

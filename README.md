@@ -232,3 +232,7 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - Moved Ocean Eddies to immediately after Wave Height & Direction in the overlay selector.
 - Removed the visible chlorophyll/SST/currents/zooplankton source-date line beneath the Fishing Intelligence composite title. Source-date metadata and calculations remain intact.
 - Preserved the v3.8.33 durable observation-history workflow.
+
+
+## v3.8.42 visible-file deployment
+All ZIP entries are visible. Run `python3 install_workflow.py` from the repository root after extracting/copying the files into your Git clone. This creates the mandatory `.github/workflows/currents.yml` file. See `DEPLOYMENT.md` for full instructions.

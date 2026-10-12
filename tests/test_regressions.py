@@ -12,7 +12,7 @@ from recover_history import merge
 
 ROOT=Path(__file__).resolve().parents[1]
 GENERATE=(ROOT/'generate.py').read_text()
-WORKFLOW=(ROOT/'.github/workflows/currents.yml').read_text()
+WORKFLOW=((ROOT/'.github/workflows/currents.yml') if (ROOT/'.github/workflows/currents.yml').exists() else (ROOT/'github-workflows/currents.yml')).read_text()
 
 class HistoryTests(unittest.TestCase):
     def setUp(self):
