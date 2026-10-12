@@ -1,0 +1,370 @@
+{
+  "status": "available",
+  "retention_days": 730,
+  "banks": {
+    "bowditch": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.31,
+        "chlorophyll_mg_m3": 0.13,
+        "current_knots": 0.53,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 76,
+          "tuna:trolling": 80,
+          "tuna:jigging": 78,
+          "wahoo:trolling": 68,
+          "wahoo:jigging": 72,
+          "marlin:trolling": 73,
+          "snapper:bottom": 71,
+          "snapper:jigging": 75,
+          "jacks:jigging": 71,
+          "jacks:bottom": 66,
+          "grouper:jigging": 82,
+          "grouper:bottom": 79,
+          "mackerel:trolling": 82,
+          "mackerel:jigging": 84
+        }
+      }
+    ],
+    "california": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.36,
+        "chlorophyll_mg_m3": 0.14,
+        "current_knots": 0.39,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 88,
+          "tuna:trolling": 91,
+          "tuna:jigging": 91,
+          "wahoo:trolling": 82,
+          "wahoo:jigging": 90,
+          "marlin:trolling": 88,
+          "snapper:bottom": 98,
+          "snapper:jigging": 98,
+          "jacks:jigging": 90,
+          "jacks:bottom": 88,
+          "grouper:jigging": 98,
+          "grouper:bottom": 98,
+          "mackerel:trolling": 95,
+          "mackerel:jigging": 96
+        }
+      }
+    ],
+    "southdrop": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.36,
+        "chlorophyll_mg_m3": 0.1,
+        "current_knots": 0.45,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 77,
+          "tuna:trolling": 74,
+          "tuna:jigging": 73,
+          "wahoo:trolling": 79,
+          "wahoo:jigging": 70,
+          "marlin:trolling": 73,
+          "snapper:bottom": 34,
+          "snapper:jigging": 44,
+          "jacks:jigging": 61,
+          "jacks:bottom": 56,
+          "grouper:jigging": 44,
+          "grouper:bottom": 34,
+          "mackerel:trolling": 67,
+          "mackerel:jigging": 66
+        }
+      }
+    ],
+    "portroyal": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.46,
+        "chlorophyll_mg_m3": 0.39,
+        "current_knots": 0.34,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 85,
+          "tuna:trolling": 89,
+          "tuna:jigging": 76,
+          "wahoo:trolling": 76,
+          "wahoo:jigging": 71,
+          "marlin:trolling": 84,
+          "snapper:bottom": 38,
+          "snapper:jigging": 48,
+          "jacks:jigging": 62,
+          "jacks:bottom": 48,
+          "grouper:jigging": 48,
+          "grouper:bottom": 38,
+          "mackerel:trolling": 85,
+          "mackerel:jigging": 80
+        }
+      }
+    ],
+    "henryholmes": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 30.14,
+        "chlorophyll_mg_m3": 0.08,
+        "current_knots": 0.43,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 86,
+          "tuna:trolling": 83,
+          "tuna:jigging": 87,
+          "wahoo:trolling": 90,
+          "wahoo:jigging": 89,
+          "marlin:trolling": 86,
+          "snapper:bottom": 54,
+          "snapper:jigging": 61,
+          "jacks:jigging": 85,
+          "jacks:bottom": 87,
+          "grouper:jigging": 60,
+          "grouper:bottom": 53,
+          "mackerel:trolling": 83,
+          "mackerel:jigging": 82
+        }
+      }
+    ],
+    "grappler": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.8,
+        "chlorophyll_mg_m3": 0.08,
+        "current_knots": 0.34,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 87,
+          "tuna:trolling": 84,
+          "tuna:jigging": 86,
+          "wahoo:trolling": 90,
+          "wahoo:jigging": 88,
+          "marlin:trolling": 86,
+          "snapper:bottom": 45,
+          "snapper:jigging": 54,
+          "jacks:jigging": 83,
+          "jacks:bottom": 84,
+          "grouper:jigging": 53,
+          "grouper:bottom": 44,
+          "mackerel:trolling": 83,
+          "mackerel:jigging": 82
+        }
+      }
+    ],
+    "formigas": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 30.16,
+        "chlorophyll_mg_m3": 0.07,
+        "current_knots": 0.6,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 64,
+          "tuna:trolling": 65,
+          "tuna:jigging": 61,
+          "wahoo:trolling": 58,
+          "wahoo:jigging": 57,
+          "marlin:trolling": 62,
+          "snapper:bottom": 33,
+          "snapper:jigging": 43,
+          "jacks:jigging": 50,
+          "jacks:bottom": 42,
+          "grouper:jigging": 43,
+          "grouper:bottom": 33,
+          "mackerel:trolling": 65,
+          "mackerel:jigging": 64
+        }
+      }
+    ],
+    "mobayair": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.53,
+        "chlorophyll_mg_m3": 0.12,
+        "current_knots": 0.18,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 89,
+          "tuna:trolling": 88,
+          "tuna:jigging": 86,
+          "wahoo:trolling": 88,
+          "wahoo:jigging": 86,
+          "marlin:trolling": 86,
+          "snapper:bottom": 69,
+          "snapper:jigging": 69,
+          "jacks:jigging": 86,
+          "jacks:bottom": 86,
+          "grouper:jigging": 68,
+          "grouper:bottom": 67,
+          "mackerel:trolling": 85,
+          "mackerel:jigging": 81
+        }
+      }
+    ],
+    "castle": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 30.19,
+        "chlorophyll_mg_m3": 0.09,
+        "current_knots": 0.63,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 81,
+          "tuna:trolling": 81,
+          "tuna:jigging": 88,
+          "wahoo:trolling": 80,
+          "wahoo:jigging": 90,
+          "marlin:trolling": 81,
+          "snapper:bottom": 96,
+          "snapper:jigging": 96,
+          "jacks:jigging": 92,
+          "jacks:bottom": 96,
+          "grouper:jigging": 96,
+          "grouper:bottom": 96,
+          "mackerel:trolling": 86,
+          "mackerel:jigging": 87
+        }
+      }
+    ],
+    "riverm": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 30.19,
+        "chlorophyll_mg_m3": 0.08,
+        "current_knots": 0.54,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 74,
+          "tuna:trolling": 72,
+          "tuna:jigging": 83,
+          "wahoo:trolling": 76,
+          "wahoo:jigging": 83,
+          "marlin:trolling": 72,
+          "snapper:bottom": 93,
+          "snapper:jigging": 93,
+          "jacks:jigging": 86,
+          "jacks:bottom": 93,
+          "grouper:jigging": 93,
+          "grouper:bottom": 93,
+          "mackerel:trolling": 76,
+          "mackerel:jigging": 80
+        }
+      }
+    ],
+    "falmouth": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.88,
+        "chlorophyll_mg_m3": 0.11,
+        "current_knots": 0.19,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 82,
+          "tuna:trolling": 78,
+          "tuna:jigging": 80,
+          "wahoo:trolling": 83,
+          "wahoo:jigging": 82,
+          "marlin:trolling": 79,
+          "snapper:bottom": 90,
+          "snapper:jigging": 87,
+          "jacks:jigging": 83,
+          "jacks:bottom": 87,
+          "grouper:jigging": 87,
+          "grouper:bottom": 90,
+          "mackerel:trolling": 80,
+          "mackerel:jigging": 77
+        }
+      }
+    ],
+    "morant": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.43,
+        "chlorophyll_mg_m3": 0.11,
+        "current_knots": 0.29,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 67,
+          "tuna:trolling": 69,
+          "tuna:jigging": 63,
+          "wahoo:trolling": 60,
+          "wahoo:jigging": 58,
+          "marlin:trolling": 63,
+          "snapper:bottom": 33,
+          "snapper:jigging": 43,
+          "jacks:jigging": 51,
+          "jacks:bottom": 43,
+          "grouper:jigging": 43,
+          "grouper:bottom": 33,
+          "mackerel:trolling": 67,
+          "mackerel:jigging": 65
+        }
+      }
+    ],
+    "maiden": [
+      {
+        "collected_at_utc": "2026-10-12T16:06:04+00:00",
+        "sst_date": "2026-10-13",
+        "current_date": "2026-10-12",
+        "chlorophyll_date": "2026-10-11",
+        "sst_c": 29.46,
+        "chlorophyll_mg_m3": 0.2,
+        "current_knots": 0.34,
+        "score_model_version": "JMM-OPP-2.0.0",
+        "species_scores": {
+          "mahi:trolling": 85,
+          "tuna:trolling": 89,
+          "tuna:jigging": 76,
+          "wahoo:trolling": 76,
+          "wahoo:jigging": 71,
+          "marlin:trolling": 84,
+          "snapper:bottom": 44,
+          "snapper:jigging": 54,
+          "jacks:jigging": 64,
+          "jacks:bottom": 52,
+          "grouper:jigging": 54,
+          "grouper:bottom": 46,
+          "mackerel:trolling": 86,
+          "mackerel:jigging": 82
+        }
+      }
+    ]
+  }
+}
