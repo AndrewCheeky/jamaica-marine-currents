@@ -1,0 +1,14 @@
+{
+  "label": "Sargassum / Possible Weedlines",
+  "source": "University of South Florida",
+  "source_page": "https://optics.marine.usf.edu/cgi-bin/optics_data?roi=JAMAICA&comp=1",
+  "views": {
+    "1day": {
+      "status": "unavailable"
+    },
+    "7day": {
+      "status": "unavailable"
+    }
+  },
+  "error": "Satellite imagery could not be refreshed"
+}
