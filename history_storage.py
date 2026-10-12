@@ -4,6 +4,7 @@ Usage: python history_storage.py restore|save
 Requires GITHUB_TOKEN and GITHUB_REPOSITORY in GitHub Actions.
 """
 import base64
+import hashlib
 import json
 import os
 import sys
@@ -35,19 +36,30 @@ def request(method, path, payload=None):
         raise RuntimeError(f'GitHub history request failed (HTTP {err.code})') from err
 
 
+def validate_history(raw):
+    data=json.loads(raw)
+    if not isinstance(data,dict) or not isinstance(data.get('banks'),dict):
+        raise ValueError('History JSON missing banks dictionary')
+    for key, rows in data['banks'].items():
+        if not isinstance(key,str) or not isinstance(rows,list) or any(not isinstance(row,dict) for row in rows):
+            raise ValueError('Invalid bank history records')
+    return data
+
+
 def get_content():
     return request('GET', f'/contents/{FILE}?ref={BRANCH}')
 
 
 def restore():
+    branch=request('GET', f'/git/ref/heads/{BRANCH}')
+    if branch is None:
+        print('HISTORY RESTORE: history branch does not exist; initial setup')
+        return
     item = get_content()
     if not item:
-        print('HISTORY RESTORE: no saved branch/file; starting new history')
-        return
+        raise RuntimeError('History branch exists but bank-history.json is missing; refusing empty restore')
     raw = base64.b64decode(item['content'])
-    data = json.loads(raw)
-    if not isinstance(data.get('banks'), dict):
-        raise ValueError('Saved history has no valid banks object')
+    data = validate_history(raw)
     LOCAL.parent.mkdir(parents=True, exist_ok=True)
     LOCAL.write_bytes(raw)
     print(f'HISTORY RESTORE: {len(data["banks"])} banks; '
@@ -55,7 +67,8 @@ def restore():
 
 
 def save():
-    data = json.loads(LOCAL.read_text())
+    raw=LOCAL.read_bytes()
+    data = validate_history(raw)
     banks = data.get('banks')
     if not isinstance(banks, dict) or not banks or not any(isinstance(v,list) and v for v in banks.values()):
         raise ValueError('Refusing to replace saved history with empty/invalid history')
@@ -69,11 +82,17 @@ def save():
     payload = {
         'message': 'Update marine environmental observation history',
         'branch': BRANCH,
-        'content': base64.b64encode(LOCAL.read_bytes()).decode(),
+        'content': base64.b64encode(raw).decode(),
     }
     if previous:
         payload['sha'] = previous['sha']
-    request('PUT', f'/contents/{FILE}', payload)
+    result=request('PUT', f'/contents/{FILE}', payload)
+    if not result or not result.get('content',{}).get('sha'):
+        raise RuntimeError('History save did not return a committed file')
+    verified=get_content()
+    if not verified or hashlib.sha256(base64.b64decode(verified['content'])).digest()!=hashlib.sha256(raw).digest():
+        raise RuntimeError('History save verification failed: remote bytes differ')
+    print('HISTORY VERIFY: saved history SHA-256 matches local archive')
     print(f'HISTORY SAVE: {len(banks)} banks; '
           f'{sum(len(v) for v in banks.values() if isinstance(v,list))} snapshots persisted')
 

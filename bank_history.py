@@ -6,16 +6,19 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 FIELDS=('sst_c','chlorophyll_mg_m3','current_knots')
-def update(path,banks,days=45):
+def update(path,banks,days=730, now=None):
     path=Path(path)
-    try: old=json.loads(path.read_text()) if path.exists() else {}
-    except (ValueError,OSError):old={}
+    # Corrupt existing history is a fatal error: never silently erase the archive.
+    old=json.loads(path.read_text()) if path.exists() else {}
+    if not isinstance(old,dict) or not isinstance(old.get('banks',{}),dict):
+        raise ValueError('Invalid historical observations; refusing to overwrite')
     store=old.get('banks',{}) if isinstance(old.get('banks',{}),dict) else {}
-    cutoff=(datetime.now(timezone.utc)-timedelta(days=days)).date().isoformat()
+    now = now or datetime.now(timezone.utc)
+    cutoff=(now-timedelta(days=days)).date().isoformat()
     for bank in banks:
         key=bank['key'];rows=store.get(key,[])
         if not isinstance(rows,list):rows=[]
-        row={'collected_at_utc':datetime.now(timezone.utc).isoformat(timespec='seconds'),
+        row={'collected_at_utc':now.isoformat(timespec='seconds'),
              'sst_date':str(bank.get('sst_time_utc') or '')[:10],
              'current_date':str(bank.get('current_time_utc') or '')[:10],
              'chlorophyll_date':str(bank.get('chlorophyll_date') or '')[:10]}
@@ -43,8 +46,11 @@ def update(path,banks,days=45):
                     # Retain both model versions for the same source observation dates.
                     rows.append(row)
             else:rows.append(row)
-        rows=[r for r in rows if max((r.get('sst_date') or '',r.get('current_date') or '',r.get('chlorophyll_date') or ''))>=cutoff]
-        store[key]=sorted(rows,key=lambda r:(r.get('sst_date') or '',r.get('current_date') or '',r.get('chlorophyll_date') or ''))[-90:]
+        rows=[r for r in rows if isinstance(r,dict) and max((r.get('sst_date') or '',r.get('current_date') or '',r.get('chlorophyll_date') or ''))>=cutoff]
+        store[key]=sorted(rows,key=lambda r:(r.get('sst_date') or '',r.get('current_date') or '',r.get('chlorophyll_date') or ''))
+    # Apply retention to inactive banks too; never truncate by row count.
+    for key, rows in list(store.items()):
+        store[key]=[r for r in rows if isinstance(r,dict) and max((r.get('sst_date') or '',r.get('current_date') or '',r.get('chlorophyll_date') or ''))>=cutoff]
     result={'status':'available','retention_days':days,'banks':store}
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(result,indent=2))

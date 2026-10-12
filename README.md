@@ -1,3 +1,21 @@
+## v3.8.38 — two-year history and reliability safeguards
+
+- History retention: **730 days**, without the former 90-record-per-bank cap; includes inactive banks.
+- Persistent `marine-observation-history` branch restore/save, strict JSON validation, and remote SHA-256 verification. A missing existing history file or invalid archive fails the workflow instead of overwriting records.
+- Offline `recover_history.py` can merge unique observations from old backups or GitHub artifacts; it cannot recover data that no longer exists. Inspect and back up the remote history branch before first deployment. Do **not** run recovery against an unverified branch or assume old observations were restored.
+- Chlorophyll observation freshness: **Current** (0–1 days), **Delayed** (2–3 days), **Stale** (4+ days), calculated against Jamaica's calendar date. Displayed in the map information message and bank quality view, not under the map heading.
+- Per-overlay Saturday forecast checks: missing Saturday data results in **Weekend forecast not yet available**, without substituting older timestamps or hiding valid current/tomorrow maps.
+- Compact Fishing Intelligence title layout; source-date heading line remains removed. Ocean Eddies dropdown order and FAD 1DAY default preserved.
+- Automated offline regression tests run before forecast generation and publication.
+- Prerequisite: GitHub Actions repository settings must allow **Read and write permissions** for `GITHUB_TOKEN`; branch protection must permit writing `marine-observation-history`.
+- **Important:** Live remote branch contents, historical recovery, satellite feeds and Pages deployment have **not** been verified by these offline tests.
+
+## v3.8.37 — persistent observation history restored
+
+- Restored four daily GitHub Actions runs, GitHub write permission, and dedicated `marine-observation-history` branch restore/save steps from v3.8.33/v3.8.34.
+- Retains v3.8.36 FAD 1DAY default and v3.8.35 header cleanup.
+- Set repository Actions workflow permissions to **Read and write permissions**.
+
 # v3.8.30: Transparent species index and model versioning
 
 - Adds a contextual **ⓘ How is this calculated?** button beside every species Index / 100.
