@@ -1,4 +1,4 @@
-## v3.8.38 — two-year history and reliability safeguards
+## v3.8.39 — two-year history and reliability safeguards
 
 - History retention: **730 days**, without the former 90-record-per-bank cap; includes inactive banks.
 - Persistent `marine-observation-history` branch restore/save, strict JSON validation, and remote SHA-256 verification. A missing existing history file or invalid archive fails the workflow instead of overwriting records.
