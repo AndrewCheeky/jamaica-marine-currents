@@ -1,3 +1,11 @@
+## v3.8.40 — GitHub Actions persistent-history workflow fix
+
+- Corrected `.github/workflows/currents.yml` to restore `marine-observation-history` before generating maps, then save and remotely verify `bank-history.json` before deployment.
+- Enabled `contents: write`, retained GitHub Pages permissions, and restored four scheduled daily runs (`05:15`, `11:15`, `17:15`, `23:15` UTC).
+- Run regression tests before generation. Failure of restore/save/verify stops publication.
+- Preserved the v3.8.39 code, 730-day history retention, FAD 1DAY default, and all map functionality.
+- **Important:** The first run may create a history branch if one does not exist. Back up any existing `marine-observation-history` branch before deploying. Existing older observations cannot be recovered unless previously stored.
+
 ## v3.8.39 — two-year history and reliability safeguards
 
 - History retention: **730 days**, without the former 90-record-per-bank cap; includes inactive banks.
