@@ -194,3 +194,8 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 - The first run creates the history branch automatically; previously lost cache-only observations cannot be reconstructed.
 - Collection timestamps are recorded separately from the environmental source dates; trends still require two distinct source dates.
 - History restoration and persistence failures stop the workflow rather than silently resetting saved history.
+
+### v3.8.34 — Overlay order and composite heading cleanup
+- Moved Ocean Eddies to immediately after Wave Height & Direction in the overlay selector.
+- Removed the visible chlorophyll/SST/currents/zooplankton source-date line beneath the Fishing Intelligence composite title. Source-date metadata and calculations remain intact.
+- Preserved the v3.8.33 durable observation-history workflow.
