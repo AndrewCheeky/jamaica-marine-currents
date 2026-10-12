@@ -1,3 +1,10 @@
+## v3.8.41 — Complete repository deployment package
+
+- Full GitHub repository ZIP based on v3.8.40, including the hidden `.github/workflows/currents.yml`.
+- Confirmed workflow grants `contents: write`, runs regression tests, restores history before generation, and saves/verifies history before deployment.
+- Added `DEPLOYMENT.md` with reliable full-repository upload instructions and verification checks.
+- Retains the 730-day history policy and existing fishing overlays and map features.
+
 ## v3.8.40 — GitHub Actions persistent-history workflow fix
 
 - Corrected `.github/workflows/currents.yml` to restore `marine-observation-history` before generating maps, then save and remotely verify `bank-history.json` before deployment.
