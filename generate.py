@@ -81,11 +81,21 @@ if(layer.value==='opportunities'||layer.value==='composite'){
  const fresh=(value,max)=>{const age=ageDays(value);return age===null?['Unavailable','quality-bad']:age<=max?[age+'d old','quality-good']:[age+'d old · check freshness','quality-warn']};
  const chlAge=observationAgeJamaica(b.chlorophyll_date);
  const chlStatus=chlAge===null?'Unavailable':chlAge<=1?'Current':chlAge<=3?'Delayed':'Stale';
- const health=[['SST model date',b.sst_time_utc,2],['Surface current model date',b.current_time_utc,2],['Chlorophyll satellite observation',b.chlorophyll_date,1]];
  const present=['sst_c','current_knots','chlorophyll_mg_m3','depth_m'].filter(k=>b[k]!==null&&b[k]!==undefined).length;
- bankQuality.replaceChildren();const qh=document.createElement('h3');qh.textContent='Data freshness & quality · '+b.name;bankQuality.appendChild(qh);
- const qualityText=document.createElement('p');qualityText.textContent='Core numerical inputs: '+present+'/4 available. Model dates are forecast reference times, not direct ocean observations. Satellite age is based on the observation date; older data may not reflect current conditions.';bankQuality.appendChild(qualityText);
- health.forEach(([label,date,limit])=>{const [rawState,rawCls]=fresh(date,limit);const state=label.startsWith('Chlorophyll')?chlStatus+' · '+rawState:rawState;const cls=label.startsWith('Chlorophyll')?(chlAge===null?'quality-bad':chlAge<=1?'quality-good':'quality-warn'):rawCls;const el=document.createElement('p');el.style.margin='4px 0';el.className=cls;el.textContent=label+': '+(dateOnly(date)?fmt(dateOnly(date)):'Unavailable')+' · '+state;bankQuality.appendChild(el)});
+ bankQuality.replaceChildren();const qh=document.createElement('h3');qh.textContent='Ocean Conditions · '+b.name;bankQuality.appendChild(qh);
+ const qualityText=document.createElement('p');qualityText.textContent=present===4?'Marine information is available for this bank.':present+' of 4 marine measurements are available for this bank.';bankQuality.appendChild(qualityText);
+ const overview=document.createElement('div');overview.className='trend-grid';
+ [['Sea temperature',b.sst_c,'°C',b.sst_time_utc,'Forecast valid'],['Surface current',b.current_knots,'knots',b.current_time_utc,'Forecast valid'],['Chlorophyll-a',b.chlorophyll_mg_m3,'mg/m³',b.chlorophyll_date,'Satellite observed']].forEach(([label,value,unit,date,kind])=>{
+  const card=document.createElement('div');card.className='trend-card';const title=document.createElement('strong');title.textContent=label;card.appendChild(title);
+  const val=document.createElement('p');val.style.margin='6px 0';val.textContent=value===null||value===undefined?'Unavailable':value+' '+unit;card.appendChild(val);
+  const foot=document.createElement('small');foot.textContent=kind+': '+(dateOnly(date)?fmt(dateOnly(date)):'Unavailable');card.appendChild(foot);overview.appendChild(card)
+ });bankQuality.appendChild(overview);
+ const freshness=document.createElement('p');freshness.style.margin='10px 0';freshness.className=chlAge===null?'quality-bad':chlAge<=1?'quality-good':'quality-warn';
+ freshness.textContent=chlAge===null?'Latest chlorophyll satellite observation is unavailable.':chlAge<=1?'Chlorophyll satellite information is recent.':`The latest chlorophyll satellite observation is ${chlAge} day${chlAge===1?'':'s'} old; recent ocean changes may not yet be reflected.`;bankQuality.appendChild(freshness);
+ const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='Data details';details.appendChild(summary);
+ const meta=document.createElement('p');meta.textContent='Available measurements: '+present+'/4 (temperature, current, chlorophyll and depth). Forecast valid dates are not direct ocean observations. Satellite age is measured from the observation date in Jamaica time.';details.appendChild(meta);
+ [['Sea temperature forecast',b.sst_time_utc],['Surface current forecast',b.current_time_utc],['Chlorophyll satellite observation',b.chlorophyll_date]].forEach(([label,date])=>{const el=document.createElement('p');el.style.margin='4px 0';el.textContent=label+': '+(dateOnly(date)?fmt(dateOnly(date)):'Unavailable');details.appendChild(el)});
+ bankQuality.appendChild(details);
  const sortScores=[...view.banks].sort((x,y)=>(y.method_scores?.[fishingMethod.value]??-1)-(x.method_scores?.[fishingMethod.value]??-1));
  opportunityDetail.after(bankCompare);bankCompare.replaceChildren();const ch=document.createElement('h3');ch.textContent='Compare all '+view.banks.length+' fishing banks · '+method.label;bankCompare.appendChild(ch);
  const scroll=document.createElement('div');scroll.className='bank-scroll';const ct=document.createElement('table');ct.className='bank-table';
@@ -95,18 +105,46 @@ if(layer.value==='opportunities'||layer.value==='composite'){
  const cells=[bank.name,bank.method_scores?.[fishingMethod.value]??'Insufficient data',best?best.label+' ('+best.score+'/100)':'Unavailable',bank.sst_c??'—',bank.current_knots??'—',bank.chlorophyll_mg_m3??'—',bank.depth_m??'—',(observationAgeJamaica(bank.chlorophyll_date)===null?'Unavailable':observationAgeJamaica(bank.chlorophyll_date)<=1?'Current':observationAgeJamaica(bank.chlorophyll_date)<=3?'Delayed':'Stale')];
  cells.forEach((value,i)=>{const td=document.createElement('td');td.textContent=String(value);if(i===7)td.className=fresh(bank.chlorophyll_date,4)[1];tr.appendChild(td)});
  const td=document.createElement('td');const btn=document.createElement('button');btn.type='button';btn.textContent='Details';btn.setAttribute('aria-label','View '+bank.name);btn.addEventListener('click',()=>{fishingBank.value=bank.key;show()});td.appendChild(btn);tr.appendChild(td);ct.appendChild(tr)});scroll.appendChild(ct);bankCompare.appendChild(scroll);
- const history=data?.bank_history?.banks?.[b.key]||[];bankTrends.replaceChildren();const hh=document.createElement('h3');hh.textContent='Historical conditions · '+b.name;bankTrends.appendChild(hh);
- const explain=document.createElement('p');explain.textContent='Recorded daily snapshots, not a reconstructed satellite archive. Values reflect the data available during each successful run. No trend is inferred from fewer than two distinct observation dates.';bankTrends.appendChild(explain);
- const cards=document.createElement('div');cards.className='trend-grid';
- [['sst_c','SST','°C','sst_date'],['chlorophyll_mg_m3','Chlorophyll-a','mg/m³','chlorophyll_date'],['current_knots','Surface current','knots','current_date']].forEach(([field,label,unit,dateField])=>{
- const rows=history.filter(v=>v[field]!==null&&v[field]!==undefined&&v[dateField]).sort((a,z)=>a[dateField].localeCompare(z[dateField]));
- const unique=[...new Map(rows.map(v=>[v[dateField],v])).values()].slice(-14);
- const card=document.createElement('div');card.className='trend-card';const heading=document.createElement('strong');heading.textContent=label;card.appendChild(heading);
- const p=document.createElement('p');p.style.margin='5px 0';if(unique.length<2){p.textContent='Building history · '+unique.length+' observation day(s)';card.appendChild(p)}else{
- const a=unique[0],z=unique[unique.length-1],delta=z[field]-a[field];p.textContent=(delta>0?'↑ ':delta<0?'↓ ':'→ ')+(delta>0?'+':'')+delta.toFixed(field==='chlorophyll_mg_m3'?3:2)+' '+unit+' over '+unique.length+' observation dates';card.appendChild(p);
- const values=unique.map(v=>v[field]);let min=Math.min(...values),max=Math.max(...values);if(min===max){min-=1;max+=1};const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 240 72');svg.setAttribute('role','img');svg.setAttribute('aria-label',label+' historical trend');const line=document.createElementNS('http://www.w3.org/2000/svg','polyline');line.setAttribute('fill','none');line.setAttribute('stroke','#126aa2');line.setAttribute('stroke-width','2.5');line.setAttribute('points',unique.map((v,i)=>(8+i*224/(unique.length-1)).toFixed(1)+','+(62-(v[field]-min)/(max-min)*52).toFixed(1)).join(' '));svg.appendChild(line);card.appendChild(svg)}
- const latest=unique.at(-1);const foot=document.createElement('small');foot.textContent=latest?'Latest: '+fmt(latest[dateField])+' · '+latest[field]+' '+unit:'No stored observations yet';card.appendChild(foot);cards.appendChild(card)});bankTrends.appendChild(cards);
-
+ const history=data?.bank_history?.banks?.[b.key]||[];bankTrends.replaceChildren();const hh=document.createElement('h3');hh.textContent='How conditions are changing · '+b.name;bankTrends.appendChild(hh);
+ const explain=document.createElement('p');explain.textContent='Explore recent recorded conditions. Dates represent the original forecast valid date or satellite observation date, not the number of times the website refreshed.';bankTrends.appendChild(explain);
+ const trendControls=document.createElement('div');trendControls.className='trend-period-controls';trendControls.setAttribute('role','group');trendControls.setAttribute('aria-label','Historical comparison window');
+ const cards=document.createElement('div');cards.className='trend-grid';const meaning=document.createElement('div');meaning.className='trend-card';
+ const historyDetails=document.createElement('details');const hs=document.createElement('summary');hs.textContent='About this history';historyDetails.appendChild(hs);const hp=document.createElement('p');hp.textContent='These are recorded daily snapshots from successful runs, not a reconstructed satellite archive. SST and current entries are forecast values, while chlorophyll comes from satellite observations. Dates with no observation are not filled in. Comparisons are descriptive, not evidence of better catches. A seven-day window is the default; the stored archive remains unchanged.';historyDetails.appendChild(hp);
+ bankTrends.append(trendControls,cards,meaning,historyDetails);
+ const trendButtons=[];
+ const renderTrends=(windowDays)=>{
+  trendButtons.forEach(([days,button])=>{const active=days===windowDays;button.setAttribute('aria-pressed',String(active));button.style.fontWeight=active?'700':'400';button.style.background=active?'#d5eaf6':''});
+  cards.replaceChildren();meaning.replaceChildren();const comparisons=[];
+  // Anchor to the latest available source date for this bank, not the browser's clock.
+  const sourceDates=history.flatMap(r=>['sst_date','chlorophyll_date','current_date'].map(k=>String(r[k]||'').slice(0,10))).filter(d=>/^\d{4}-\d{2}-\d{2}$/.test(d));
+  const anchor=sourceDates.length?sourceDates.sort().at(-1):null;
+  const anchorMs=anchor?Date.parse(anchor+'T00:00:00Z'):NaN;
+  const cutoff=Number.isFinite(anchorMs)?new Date(anchorMs-(windowDays-1)*86400000).toISOString().slice(0,10):null;
+  [['sst_c','Sea temperature','°C','sst_date'],['chlorophyll_mg_m3','Chlorophyll-a','mg/m³','chlorophyll_date'],['current_knots','Surface current','knots','current_date']].forEach(([field,label,unit,dateField])=>{
+   const rows=history.filter(v=>Number.isFinite(Number(v[field]))&&v[field]!==null&&v[field]!==undefined&&/^\d{4}-\d{2}-\d{2}$/.test(String(v[dateField]||''))&&(!cutoff||v[dateField]>=cutoff)&&v[dateField]<=anchor).sort((a,z)=>a[dateField].localeCompare(z[dateField]));
+   // One record per distinct source date; don't count repeated forecast runs as independent observations.
+   const unique=[...new Map(rows.map(v=>[v[dateField],v])).values()];
+   const card=document.createElement('div');card.className='trend-card';const heading=document.createElement('strong');heading.textContent=label;card.appendChild(heading);
+   const count=document.createElement('small');count.style.display='block';count.textContent=unique.length+' distinct date'+(unique.length===1?'':'s')+' in '+windowDays+'-day window';card.appendChild(count);
+   const p=document.createElement('p');p.style.margin='5px 0';
+   if(unique.length<2){p.textContent='Building history · more dates needed';card.appendChild(p)}else{
+    const first=unique[0],last=unique.at(-1),delta=Number(last[field])-Number(first[field]);const magnitude=Math.abs(delta).toFixed(field==='chlorophyll_mg_m3'?3:2);
+    const direction=delta>0?'higher':delta<0?'lower':'unchanged';
+    p.textContent=(delta>0?'↑ +':delta<0?'↓ −':'→ ')+magnitude+' '+unit+' since first recorded date';card.appendChild(p);
+    const note=document.createElement('small');note.style.display='block';note.textContent=unique.length<3?'Latest difference only — not yet a trend':unique.length<5?'Early indication — limited history':'Recorded '+(direction==='unchanged'?'values are unchanged':direction+' values')+' over the selected period; not a fishing prediction';card.appendChild(note);
+    comparisons.push({field,delta,count:unique.length});
+    const values=unique.map(v=>Number(v[field]));let min=Math.min(...values),max=Math.max(...values);if(min===max){min-=1;max+=1}
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 240 72');svg.setAttribute('role','img');svg.setAttribute('aria-label',label+' recorded values over '+windowDays+' days');
+    const line=document.createElementNS('http://www.w3.org/2000/svg','polyline');line.setAttribute('fill','none');line.setAttribute('stroke','#126aa2');line.setAttribute('stroke-width','2.5');line.setAttribute('points',unique.map((v,i)=>(8+(Date.parse(v[dateField]+'T00:00:00Z')-Date.parse(first[dateField]+'T00:00:00Z'))/Math.max(1,Date.parse(last[dateField]+'T00:00:00Z')-Date.parse(first[dateField]+'T00:00:00Z'))*224).toFixed(1)+','+(62-(Number(v[field])-min)/(max-min)*52).toFixed(1)).join(' '));svg.appendChild(line);card.appendChild(svg);
+   }
+   const latest=unique.at(-1);const foot=document.createElement('small');foot.style.display='block';foot.textContent=latest?'Latest in window: '+fmt(latest[dateField])+' · '+latest[field]+' '+unit:'No recorded values in this window';card.appendChild(foot);cards.appendChild(card);
+  });
+  const mt=document.createElement('strong');mt.textContent='What this means for fishing';meaning.appendChild(mt);const mp=document.createElement('p');
+  mp.textContent=!comparisons.length?'Not enough distinct dates in this period to compare conditions. Try a longer window.':comparisons.every(x=>x.count<3)?'Only two distinct dates are available for comparison. These are differences, not established trends or fishing predictions.':comparisons.some(x=>x.count>=5)?'The selected period shows recorded changes in ocean conditions. Compare these with current forecasts; changes alone cannot establish whether fishing will improve.':'Early changes are visible, but more distinct dates are needed before drawing conclusions about fishing conditions.';
+  meaning.appendChild(mp);
+ };
+ [3,7,30].forEach(days=>{const button=document.createElement('button');button.type='button';button.textContent=days+' days';button.style.cssText='margin:4px 6px 8px 0;padding:7px 12px;border:1px solid #9eb9ca;border-radius:6px;cursor:pointer';button.addEventListener('click',()=>renderTrends(days));trendButtons.push([days,button]);trendControls.appendChild(button)});
+ renderTrends(7);
  const format=x=>x===null||x===undefined?'Unavailable':x;
  opportunityDetail.replaceChildren();
  const add=(label,value)=>{const p=document.createElement('p');p.style.margin='5px 0';const strong=document.createElement('strong');strong.textContent=label+': ';p.append(strong,document.createTextNode(String(value)));opportunityDetail.appendChild(p)};
