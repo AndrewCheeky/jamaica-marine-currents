@@ -22,7 +22,9 @@ class OfflineBasemapTests(unittest.TestCase):
         html=(ROOT/'ocean_features_interactive.html').read_text()
         self.assertNotIn('tile.openstreetmap.org',html)
         self.assertNotIn('L.tileLayer(',html)
-        self.assertIn("L.imageOverlay('jamaica-geography.svg'",html)
+        self.assertIn("L.polygon(points",html)
+        self.assertNotIn("L.imageOverlay(",html)
+        self.assertIn("map.fitBounds([[17.05,-79.1],[19.1,-75.7]]",html)
     def test_local_geography_is_packaged_by_generator(self):
         self.assertTrue((ROOT/'jamaica-geography.svg').is_file())
         self.assertIn("out/'jamaica-geography.svg'",(ROOT/'ocean_features.py').read_text())

@@ -236,3 +236,7 @@ Fishing Opportunities bank details show observation **dates only** for chlorophy
 
 ## v3.8.42 visible-file deployment
 All ZIP entries are visible. Run `python3 install_workflow.py` from the repository root after extracting/copying the files into your Git clone. This creates the mandatory `.github/workflows/currents.yml` file. See `DEPLOYMENT.md` for full instructions.
+
+
+## v3.9.4 geographic alignment
+The interactive Ocean Fronts map now draws geographic coastline polygons with Leaflet in the same coordinate reference as feature GeoJSON, avoiding misalignment from image overlay bounds. See `GEOGRAPHIC_ALIGNMENT_RELEASE_NOTES.md`.
