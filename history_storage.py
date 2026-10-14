@@ -15,6 +15,8 @@ from pathlib import Path
 BRANCH = 'marine-observation-history'
 FILE = 'bank-history.json'
 LOCAL = Path('site/bank-history.json')
+FEATURE_FILE = 'feature-history.json'
+FEATURE_LOCAL = Path('site/feature-history.json')
 API = f"https://api.github.com/repos/{os.environ.get('GITHUB_REPOSITORY', '')}"
 
 
@@ -50,6 +52,45 @@ def get_content():
     return request('GET', f'/contents/{FILE}?ref={BRANCH}')
 
 
+def feature_content():
+    return request('GET', f'/contents/{FEATURE_FILE}?ref={BRANCH}')
+
+
+def restore_features():
+    item=feature_content()
+    if item is None:
+        print('FEATURE HISTORY RESTORE: first run; no previous feature history')
+        return
+    raw=base64.b64decode(item['content'])
+    data=json.loads(raw)
+    if not isinstance(data,dict) or not isinstance(data.get('banks'),dict):
+        raise ValueError('Invalid feature history archive')
+    FEATURE_LOCAL.parent.mkdir(parents=True,exist_ok=True)
+    FEATURE_LOCAL.write_bytes(raw)
+    print(f'FEATURE HISTORY RESTORE: {len(data["banks"])} banks')
+
+
+def save_features():
+    if not FEATURE_LOCAL.exists():
+        print('FEATURE HISTORY SAVE: no new numerical features; prior archive preserved')
+        return
+    raw=FEATURE_LOCAL.read_bytes()
+    data=json.loads(raw)
+    if not isinstance(data,dict) or not isinstance(data.get('banks'),dict) or not data['banks']:
+        raise ValueError('Refusing invalid/empty feature history')
+    previous=feature_content()
+    payload={'message':'Update ocean feature history','branch':BRANCH,
+             'content':base64.b64encode(raw).decode()}
+    if previous:payload['sha']=previous['sha']
+    result=request('PUT',f'/contents/{FEATURE_FILE}',payload)
+    if not result or not result.get('content',{}).get('sha'):
+        raise RuntimeError('Feature history save failed')
+    verified=feature_content()
+    if not verified or hashlib.sha256(base64.b64decode(verified['content'])).digest()!=hashlib.sha256(raw).digest():
+        raise RuntimeError('Feature history checksum mismatch')
+    print('FEATURE HISTORY VERIFY: SHA-256 matches')
+
+
 def restore():
     branch=request('GET', f'/git/ref/heads/{BRANCH}')
     if branch is None:
@@ -62,6 +103,7 @@ def restore():
     data = validate_history(raw)
     LOCAL.parent.mkdir(parents=True, exist_ok=True)
     LOCAL.write_bytes(raw)
+    restore_features()
     print(f'HISTORY RESTORE: {len(data["banks"])} banks; '
           f'{sum(len(v) for v in data["banks"].values() if isinstance(v,list))} snapshots')
 
@@ -93,6 +135,7 @@ def save():
     if not verified or hashlib.sha256(base64.b64decode(verified['content'])).digest()!=hashlib.sha256(raw).digest():
         raise RuntimeError('History save verification failed: remote bytes differ')
     print('HISTORY VERIFY: saved history SHA-256 matches local archive')
+    save_features()
     print(f'HISTORY SAVE: {len(banks)} banks; '
           f'{sum(len(v) for v in banks.values() if isinstance(v,list))} snapshots persisted')
 
