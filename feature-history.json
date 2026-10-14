@@ -53,7 +53,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "california": [
@@ -109,7 +109,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "southdrop": [
@@ -165,7 +165,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "portroyal": [
@@ -221,7 +221,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "henryholmes": [
@@ -277,7 +277,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "grappler": [
@@ -333,7 +333,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "formigas": [
@@ -389,7 +389,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "mobayair": [
@@ -445,7 +445,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "castle": [
@@ -501,7 +501,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "riverm": [
@@ -545,7 +545,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "falmouth": [
@@ -601,7 +601,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "morant": [
@@ -657,7 +657,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ],
     "maiden": [
@@ -713,7 +713,7 @@
             "persistence": "building history"
           }
         ],
-        "model_version": "3.9.0"
+        "model_version": "3.9.2"
       }
     ]
   }
