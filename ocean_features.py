@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 from scipy.ndimage import gaussian_filter, maximum_filter, minimum_filter
 
-VERSION = '3.9.0'
+VERSION = '3.9.2'
 KINDS = ('sst_front', 'convergence', 'shear', 'eddy_candidate')
 LABELS = {'sst_front':'Temperature front','convergence':'Current convergence',
           'shear':'Current shear','eddy_candidate':'Possible eddy / rotation'}
@@ -135,31 +135,55 @@ def build(out,banks,grid_path):
     import matplotlib.pyplot as plt
     import cartopy.crs as ccrs
     import cartopy.feature as cfeature
-    fig=plt.figure(figsize=(13.5,9),dpi=125,facecolor='#061b33')
-    ax=fig.add_subplot(111,projection=ccrs.PlateCarree())
-    ax.set_extent([-79.5,-74.5,16,20],crs=ccrs.PlateCarree())
-    ax.set_facecolor('#103a4e')
-    ax.add_feature(cfeature.LAND,facecolor='#42474a',zorder=5)
-    ax.coastlines(color='#b6c9d0',linewidth=.5,zorder=6)
-    for kind,arr in fields.items():
-        finite=arr[np.isfinite(arr)]
-        if len(finite)<8:continue
-        level=np.percentile(finite,85)
-        if level<=0:continue
-        mask=np.where(np.isfinite(arr),arr,np.nan)
-        if np.nanmax(mask)<=level:continue
-        ax.contour(lon,lat,mask,levels=[level],colors=[COLORS[kind]],linewidths=1.7,
-                   transform=ccrs.PlateCarree(),zorder=4)
-    for bank in banks:
-        ax.scatter(bank['lon'],bank['lat'],marker='o',s=10,c='white',edgecolors='#092c39',zorder=8)
-    ax.set_title('JAMAICA | OCEAN FRONTS & FISHING FEATURES',color='white',fontsize=15,pad=15)
-    legend='Orange: SST fronts   Cyan: convergence   Pink: shear   Purple: rotation candidates'
-    fig.text(.5,.06,legend,color='white',ha='center',fontsize=10)
-    fig.text(.5,.035,'Experimental model diagnostics · Not fish locations · Not for navigation',color='#c9e0e6',ha='center',fontsize=9)
-    fig.savefig(out/'ocean-features.png',facecolor=fig.get_facecolor(),bbox_inches='tight')
-    plt.close(fig)
-    geo={'type':'FeatureCollection','features':points,'properties':{'model_version':VERSION,'sst_valid_utc':sst_time,'currents_valid_utc':current_time}}
+    # Generate independently selectable maps from the same validated numerical grids.
+    images={}
+    boundary_lines=[]
+    for selection,kinds in [('all',KINDS),('sst_front',('sst_front',)),
+                            ('currents',('convergence','shear')),
+                            ('eddy_candidate',('eddy_candidate',))]:
+        fig=plt.figure(figsize=(13.5,9),dpi=125,facecolor='#061b33')
+        ax=fig.add_subplot(111,projection=ccrs.PlateCarree())
+        ax.set_extent([-79.5,-74.5,16,20],crs=ccrs.PlateCarree())
+        ax.set_facecolor('#103a4e')
+        ax.add_feature(cfeature.LAND,facecolor='#42474a',zorder=5)
+        ax.coastlines(color='#b6c9d0',linewidth=.5,zorder=6)
+        for kind in kinds:
+            arr=fields[kind]
+            finite=arr[np.isfinite(arr)]
+            if len(finite)<8:continue
+            level=np.percentile(finite,85)
+            if level<=0:continue
+            mask=np.where(np.isfinite(arr),arr,np.nan)
+            if np.nanmax(mask)<=level:continue
+            contour=ax.contour(lon,lat,mask,levels=[level],colors=[COLORS[kind]],linewidths=1.7,
+                       transform=ccrs.PlateCarree(),zorder=4)
+            if selection=='all':
+                for segment in contour.allsegs[0][:120]:
+                    if len(segment)<4: continue
+                    step=max(1,int(np.ceil(len(segment)/150)))
+                    coords=[[round(float(x),5),round(float(y),5)] for x,y in segment[::step]]
+                    if len(coords)>1:
+                        boundary_lines.append({'type':'Feature','geometry':{'type':'LineString','coordinates':coords},'properties':{'kind':kind,'label':LABELS[kind], 'strength_threshold':round(float(level),4),'unit':'°C/100 km' if kind=='sst_front' else '10⁻⁶ s⁻¹','sst_valid_utc':sst_time,'currents_valid_utc':current_time,'interpretation':'Model-derived boundary, not a fish location'}})
+        for bank in banks:
+            ax.scatter(bank['lon'],bank['lat'],marker='o',s=10,c='white',edgecolors='#092c39',zorder=8)
+        ax.set_title('JAMAICA | OCEAN FRONTS & FISHING FEATURES',color='white',fontsize=15,pad=15)
+        captions={'all':'Orange: SST fronts   Cyan: convergence   Pink: shear   Purple: rotation candidates',
+                  'sst_front':'Orange: temperature fronts',
+                  'currents':'Cyan: convergence   Pink: current shear',
+                  'eddy_candidate':'Purple: possible rotation / eddy candidates'}
+        fig.text(.5,.06,captions[selection],color='white',ha='center',fontsize=10)
+        fig.text(.5,.035,'Experimental model diagnostics · Not fish locations · Not for navigation',color='#c9e0e6',ha='center',fontsize=9)
+        filename='ocean-features.png' if selection=='all' else 'ocean-features-'+selection+'.png'
+        fig.savefig(out/filename,facecolor=fig.get_facecolor(),bbox_inches='tight')
+        plt.close(fig)
+        images[selection]=filename
+    for point in points:
+        point['properties']['sst_valid_utc']=sst_time
+        point['properties']['currents_valid_utc']=current_time
+    geo={'type':'FeatureCollection','features':points+boundary_lines,'properties':{'model_version':VERSION,'sst_valid_utc':sst_time,'currents_valid_utc':current_time}}
     (out/'ocean-features.geojson').write_text(json.dumps(geo,indent=2))
-    return {'status':'available','image':'ocean-features.png','geojson':'ocean-features.geojson',
+    from shutil import copyfile
+    copyfile(Path(__file__).with_name('ocean_features_interactive.html'),out/'ocean-features-interactive.html')
+    return {'status':'available','image':'ocean-features.png','geojson':'ocean-features.geojson','images':images,
             'sst_valid_utc':sst_time,'currents_valid_utc':current_time,'banks':by_bank,
             'description':'Model-derived fronts, convergence, shear and rotation candidates. Not fish predictions.'}
