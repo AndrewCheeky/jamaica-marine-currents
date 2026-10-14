@@ -184,6 +184,7 @@ def build(out,banks,grid_path):
     (out/'ocean-features.geojson').write_text(json.dumps(geo,indent=2))
     from shutil import copyfile
     copyfile(Path(__file__).with_name('ocean_features_interactive.html'),out/'ocean-features-interactive.html')
+    copyfile(Path(__file__).with_name('jamaica-geography.svg'),out/'jamaica-geography.svg')
     return {'status':'available','image':'ocean-features.png','geojson':'ocean-features.geojson','images':images,
             'sst_valid_utc':sst_time,'currents_valid_utc':current_time,'banks':by_bank,
             'description':'Model-derived fronts, convergence, shear and rotation candidates. Not fish predictions.'}

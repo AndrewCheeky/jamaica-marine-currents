@@ -205,10 +205,8 @@ if(layer.value==='opportunities'||layer.value==='composite'){
  const names=Object.entries(view.banks||{});
  if(!featureBank.options.length){names.forEach(([key,b])=>featureBank.add(new Option(b.name,key)));}
  const b=view.banks?.[featureBank.value]||names[0]?.[1];featureSummary.replaceChildren();
- if(b){const head=document.createElement('strong');head.textContent=b.name+' · '+b.search_radius_km+' km bank search area';featureSummary.appendChild(head);
- const filtered=(b.features||[]).filter(f=>featureFilter==='all'||(featureFilter==='currents'?['convergence','shear'].includes(f.kind):f.kind===featureFilter));
- if(!filtered.length){const p=document.createElement('p');p.textContent='No sufficiently strong feature detected at this model resolution.';featureSummary.appendChild(p);}
- filtered.forEach(f=>{const p=document.createElement('p');p.textContent=f.label+' · '+f.lat.toFixed(3)+'°, '+f.lon.toFixed(3)+'° · search radius ~'+f.search_radius_km+' km · '+f.persistence+' ('+f.historical_matching_dates+' prior matching model dates). Environmental candidate only.';featureSummary.appendChild(p);});}
+ if(b){const head=document.createElement('strong');head.textContent=b.name+' · '+b.search_radius_km+' km approximate search area';featureSummary.appendChild(head);
+ const p=document.createElement('p');p.textContent='Select a coloured marker or boundary on the map to view GPS coordinates, feature strength, persistence and forecast validity. Use the overlay buttons to filter features.';featureSummary.appendChild(p);}
  status.textContent='Ocean Fronts & Fishing Features · SST: '+(view.sst_valid_utc||'unknown')+' · Currents: '+(view.currents_valid_utc||'unknown');
  msg.textContent='Orange: SST fronts · Cyan: convergence · Pink: current shear · Purple: possible rotation. Outlines reflect model diagnostics, not fish locations or navigational features.';
  document.querySelectorAll('button[data-feature]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.feature===featureFilter)));
