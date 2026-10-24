@@ -32,3 +32,13 @@ button[aria-pressed=true]{background:var(--marine-yellow)!important;color:#082a3
 .sea-closing{margin:20px 0;background:linear-gradient(90deg,rgba(2,21,35,.9),rgba(2,21,35,.25)),url('assets/fishing-sunset.webp') center/cover;padding:55px 30px;border-radius:16px;color:#fff}.sea-closing h2{color:#fff;font-size:clamp(32px,5vw,56px);margin:8px 0}.sea-closing em{color:#ffd846}.sea-closing p:last-child{color:#e4f3f7}
 @media(max-width:850px){.sea-quicklinks,.sea-explore-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sea-quicklinks a:nth-child(2){border-right:0}.marine-hero{min-height:400px}}
 @media(max-width:550px){.sea-quicklinks,.sea-explore-grid{grid-template-columns:1fr}.sea-quicklinks a{border-right:0;border-bottom:1px solid #176481}.sea-primary-nav a{flex:1 1 42%;text-align:center;padding:9px}.marine-hero{min-height:340px;background-position:center,right center}.sea-explore-section{padding:26px 15px}.sea-quicklinks{padding:12px}}
+
+/* v3.9.9: streamlined header, immediate map controls and centered closing */
+.marine-hero{position:relative;align-items:center;padding-top:54px;padding-bottom:54px}
+.marine-hero-inner{width:100%;max-width:1200px;position:relative;padding-right:240px}
+.marine-hero-action{position:absolute;top:0;right:0;white-space:nowrap;box-shadow:0 6px 22px rgba(0,0,0,.2)}
+.sea-primary-nav,.sea-quicklinks{display:none!important}
+main{padding-top:28px!important}
+.sea-closing{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sea-closing h2,.sea-closing p{max-width:850px;text-align:center}
+@media(max-width:750px){.marine-hero-inner{padding-right:0;padding-top:66px}.marine-hero-action{top:0;right:0;padding:11px 14px}.marine-hero h1{font-size:clamp(36px,8vw,60px)!important}}
