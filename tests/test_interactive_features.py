@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class InteractiveFeatureTests(unittest.TestCase):
     def test_interactive_page_has_leaflet_and_popup(self):
         html=(ROOT/'ocean_features_interactive.html').read_text()
-        for token in ('L.map(', 'L.circleMarker(', 'L.polyline(', 'bindPopup(', 'Copy GPS', 'ocean-features.geojson', 'jfi-feature-controls'):
+        for token in ('L.map(', 'L.circleMarker(', 'L.polyline(', 'showFeature(f)', 'Copy GPS', 'ocean-features.geojson', 'jfi-feature-controls'):
             self.assertIn(token,html)
     def test_generator_embeds_map_and_switches_from_image(self):
         code=(ROOT/'generate.py').read_text()

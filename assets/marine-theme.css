@@ -1,0 +1,9 @@
+/* Shared visual language based on Marine Weather Jamaica v5.1 */
+:root{--marine-navy:#052638;--marine-deep:#031b2b;--marine-cyan:#5dd4ec;--marine-yellow:#ffd846;--marine-ink:#123145}
+*{box-sizing:border-box}body{background:#f5f9fa!important;color:var(--marine-ink)!important;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important}
+header{background:linear-gradient(90deg,rgba(2,21,35,.86),rgba(2,21,35,.46)),url('jamaica-sea-sunset.jpg') center 48%/cover!important;min-height:260px;display:flex;flex-direction:column;justify-content:center;border-bottom:5px solid var(--marine-yellow)}
+header h1{font-size:clamp(32px,5vw,64px)!important;letter-spacing:-.035em;line-height:1.1;max-width:900px}header p{color:#e7f4f8!important;font-size:clamp(14px,1.5vw,19px);max-width:800px}
+.wrap{max-width:1240px!important}nav button,button{transition:background-color .18s,border-color .18s,box-shadow .18s}button[aria-selected=true]{background:var(--marine-yellow)!important;border-color:var(--marine-yellow)!important;color:#0b2b39!important}
+button:focus-visible,a:focus-visible{outline:3px solid var(--marine-yellow)!important;outline-offset:3px}.frame{border-radius:18px!important;box-shadow:0 10px 34px rgba(5,38,56,.10);border-color:#c4dce4!important}
+.fishing-intelligence{background:var(--marine-yellow)!important;color:#0b2b39!important;border-color:var(--marine-yellow)!important}footer{background:var(--marine-deep);color:#c2d9e1!important}
+@media(max-width:600px){header{min-height:225px;padding:28px 20px!important}.wrap{padding:16px 12px!important}nav button{flex:1 1 auto}}
