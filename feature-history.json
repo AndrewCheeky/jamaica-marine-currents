@@ -601,13 +601,13 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 17.16667,
-            "lon": -76.91666,
-            "strength": 1.8042,
+            "lat": 17.58334,
+            "lon": -77.08333,
+            "strength": 1.0269,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 0,
+            "historical_matching_dates": 1,
             "persistence": "not established"
           },
           {
@@ -1251,9 +1251,9 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 17.66667,
-            "lon": -77.0,
-            "strength": 1.5618,
+            "lat": 17.58334,
+            "lon": -77.08333,
+            "strength": 1.0269,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
@@ -1902,13 +1902,13 @@
             "kind": "sst_front",
             "label": "Temperature front",
             "lat": 16.91667,
-            "lon": -76.58333,
-            "strength": 1.904,
+            "lon": -76.5,
+            "strength": 1.1843,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 1,
-            "persistence": "not established"
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
           },
           {
             "kind": "convergence",
@@ -2539,9 +2539,9 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 17.66667,
+            "lat": 17.58334,
             "lon": -77.0,
-            "strength": 1.5618,
+            "strength": 0.9912,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
@@ -3177,13 +3177,13 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 18.16667,
-            "lon": -75.66666,
-            "strength": 1.501,
+            "lat": 18.33334,
+            "lon": -75.75,
+            "strength": 1.9851,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 4,
+            "historical_matching_dates": 2,
             "persistence": "repeated feature"
           },
           {
@@ -3827,14 +3827,14 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 18.08334,
-            "lon": -75.58333,
-            "strength": 1.7421,
+            "lat": 18.25,
+            "lon": -75.66666,
+            "strength": 2.1387,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 4,
-            "persistence": "repeated feature"
+            "historical_matching_dates": 1,
+            "persistence": "not established"
           },
           {
             "kind": "convergence",
@@ -4478,13 +4478,13 @@
             "kind": "sst_front",
             "label": "Temperature front",
             "lat": 18.41667,
-            "lon": -75.58333,
-            "strength": 2.1536,
+            "lon": -75.66666,
+            "strength": 2.4801,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 2,
-            "persistence": "repeated feature"
+            "historical_matching_dates": 1,
+            "persistence": "not established"
           },
           {
             "kind": "convergence",
@@ -5103,9 +5103,9 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 18.75,
-            "lon": -77.66666,
-            "strength": 1.1526,
+            "lat": 18.66667,
+            "lon": -77.58333,
+            "strength": 1.0875,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
@@ -5729,13 +5729,13 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 18.41667,
-            "lon": -76.58333,
-            "strength": 1.0254,
+            "lat": 18.16667,
+            "lon": -76.0,
+            "strength": 1.1908,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 1,
+            "historical_matching_dates": 0,
             "persistence": "not established"
           },
           {
@@ -6320,8 +6320,8 @@
             "kind": "sst_front",
             "label": "Temperature front",
             "lat": 18.41667,
-            "lon": -76.58333,
-            "strength": 1.0254,
+            "lon": -76.5,
+            "strength": 0.9156,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
@@ -6922,12 +6922,12 @@
             "kind": "sst_front",
             "label": "Temperature front",
             "lat": 18.75,
-            "lon": -77.66666,
-            "strength": 1.1526,
+            "lon": -77.58333,
+            "strength": 1.2707,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 3,
+            "historical_matching_dates": 5,
             "persistence": "repeated feature"
           },
           {
@@ -7571,13 +7571,13 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 17.41667,
-            "lon": -75.83333,
-            "strength": 1.5259,
+            "lat": 17.25,
+            "lon": -75.91666,
+            "strength": 1.6099,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
-            "historical_matching_dates": 3,
+            "historical_matching_dates": 4,
             "persistence": "repeated feature"
           },
           {
@@ -8209,9 +8209,9 @@
           {
             "kind": "sst_front",
             "label": "Temperature front",
-            "lat": 17.66667,
+            "lat": 17.58334,
             "lon": -77.0,
-            "strength": 1.5618,
+            "strength": 0.9912,
             "unit": "\u00b0C/100 km",
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
