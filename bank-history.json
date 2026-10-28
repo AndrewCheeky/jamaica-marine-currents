@@ -1010,7 +1010,8 @@
           "grouper:bottom": 82,
           "mackerel:trolling": 92,
           "mackerel:jigging": 91
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "california": [
@@ -2021,7 +2022,8 @@
           "grouper:bottom": 98,
           "mackerel:trolling": 95,
           "mackerel:jigging": 96
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "southdrop": [
@@ -3032,7 +3034,8 @@
           "grouper:bottom": 36,
           "mackerel:trolling": 77,
           "mackerel:jigging": 73
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "portroyal": [
@@ -4043,7 +4046,8 @@
           "grouper:bottom": 33,
           "mackerel:trolling": 70,
           "mackerel:jigging": 66
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "henryholmes": [
@@ -5054,7 +5058,8 @@
           "grouper:bottom": 51,
           "mackerel:trolling": 74,
           "mackerel:jigging": 75
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "grappler": [
@@ -6065,7 +6070,8 @@
           "grouper:bottom": 44,
           "mackerel:trolling": 83,
           "mackerel:jigging": 82
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "formigas": [
@@ -7076,7 +7082,8 @@
           "grouper:bottom": 38,
           "mackerel:trolling": 83,
           "mackerel:jigging": 78
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "mobayair": [
@@ -8087,7 +8094,8 @@
           "grouper:bottom": 71,
           "mackerel:trolling": 83,
           "mackerel:jigging": 85
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "castle": [
@@ -9098,7 +9106,8 @@
           "grouper:bottom": 98,
           "mackerel:trolling": 95,
           "mackerel:jigging": 96
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "riverm": [
@@ -10109,7 +10118,8 @@
           "grouper:bottom": 98,
           "mackerel:trolling": 95,
           "mackerel:jigging": 96
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "falmouth": [
@@ -11120,7 +11130,8 @@
           "grouper:bottom": 95,
           "mackerel:trolling": 83,
           "mackerel:jigging": 86
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "morant": [
@@ -12131,7 +12142,8 @@
           "grouper:bottom": 36,
           "mackerel:trolling": 77,
           "mackerel:jigging": 73
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ],
     "maiden": [
@@ -13142,7 +13154,8 @@
           "grouper:bottom": 40,
           "mackerel:trolling": 71,
           "mackerel:jigging": 68
-        }
+        },
+        "last_checked_at_utc": "2026-10-28T02:14:11+00:00"
       }
     ]
   }
