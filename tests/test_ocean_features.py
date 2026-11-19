@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta, timezone
 import tempfile
 import unittest
 from pathlib import Path
@@ -37,9 +38,10 @@ class OceanFeatureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             path=Path(d)/'feature-history.json'
             bank={'b':{'features':[{'kind':'sst_front','lat':18,'lon':-77}]}}
-            ocean_features._history(path,bank,'2026-10-11')
-            ocean_features._history(path,bank,'2026-10-12')
-            ocean_features._history(path,bank,'2026-10-13')
+            today=datetime.now(timezone.utc).date()
+            for days_ago in (2,1,0):
+                valid_date=(today-timedelta(days=days_ago)).isoformat()
+                ocean_features._history(path,bank,valid_date)
             self.assertEqual(bank['b']['features'][0]['historical_matching_dates'],2)
             self.assertEqual(len(json.loads(path.read_text())['banks']['b']),3)
     def test_feature_history_corruption_fails_closed(self):
