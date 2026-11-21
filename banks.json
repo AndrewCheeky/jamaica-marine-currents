@@ -24,6 +24,12 @@
     "lon": -76.84
   },
   {
+    "key": "cowbay",
+    "name": "Cow Bay",
+    "lat": 17.87,
+    "lon": -76.62
+  },
+  {
     "key": "henryholmes",
     "name": "Henry Holmes Bank",
     "lat": 18.117,
@@ -76,5 +82,11 @@
     "name": "Maiden Cay",
     "lat": 17.9085229,
     "lon": -76.8103697
+  },
+  {
+    "key": "pigeion",
+    "name": "Pigeon Island",
+    "lat": 17.79667,
+    "lon": -77.07478
   }
 ]
