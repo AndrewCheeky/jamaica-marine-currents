@@ -194,9 +194,9 @@ def generate_composite(out, root, banks, bounds, chl_dataset, username, password
             x,y=float(bank['lon']),float(bank['lat'])
             if west<=x<=east and south<=y<=north:
                 ax.add_artist(AnnotationBbox(OffsetImage(icon,zoom=1),(x,y),xycoords='data',frameon=False,pad=0,zorder=7))
-                label=ax.annotate(bank['name'],(x,y),xytext=(8,-8),textcoords='offset points',fontsize=7.2,color='white',fontweight='bold',zorder=8)
-                label.set_path_effects([pe.withStroke(linewidth=2.6,foreground='#07182c')])
         fig.suptitle('JAMAICA  |  FISHING INTELLIGENCE',color='white',fontsize=16,fontweight='bold',y=.955)
+        from label_layout import place_bank_labels     # names placed so they don't overlap
+        place_bank_labels(ax,[b for b in banks if west<=float(b['lon'])<=east and south<=float(b['lat'])<=north],fontsize=7.2,stroke='#07182c')
         cax=fig.add_axes([.63,.075,.29,.023]); cb=fig.colorbar(mesh,cax=cax,orientation='horizontal')
         cb.ax.tick_params(colors='white',labelsize=8);cb.outline.set_edgecolor('white')
         fig.text(.63,.108,'Chlorophyll-a (mg/m³) · log scale',color='white',fontsize=9)

@@ -61,9 +61,10 @@ def render_map(out,banks):
     ax.coastlines(resolution='10m',color='#28455e',zorder=5)
     for b in banks:
         ax.scatter([b['lon']],[b['lat']],s=20,edgecolors='white',facecolors='#ffcc33',transform=ccrs.PlateCarree(),zorder=6)
-        ax.annotate(b['name'],(b['lon'],b['lat']),xytext=(5,4),textcoords='offset points',color='white',fontsize=7,zorder=7)
     ax.set_title('JAMAICA | FISHING OPPORTUNITIES\nSST and surface currents',color='white',fontsize=14,pad=18)
     cb=fig.colorbar(im,ax=ax,orientation='horizontal',pad=.035,shrink=.65);cb.set_label('Sea surface temperature (°C)',color='white');cb.ax.tick_params(colors='white')
+    from label_layout import place_bank_labels     # names placed so they don't overlap
+    place_bank_labels(ax,banks,fontsize=7.2,pin_half=(4,4))
     fig.text(.5,.02,'Environmental context only. Not a fish forecast or navigation chart.',ha='center',color='white',fontsize=9)
     name='fishing-opportunities.png';fig.savefig(out/name,bbox_inches='tight',facecolor=fig.get_facecolor());plt.close(fig)
     return name

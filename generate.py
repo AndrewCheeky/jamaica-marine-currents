@@ -376,10 +376,8 @@ def generate_one(key, target, layer="currents"):
         ab = AnnotationBbox(OffsetImage(icon, zoom=1.0), (lon, lat),
                             xycoords='data', frameon=False, pad=0, zorder=7)
         ax.add_artist(ab)
-        label = ax.annotate(bank['name'], (lon, lat), xytext=(9, -7),
-                            textcoords='offset points', fontsize=7.3,
-                            color='white', fontweight='bold', zorder=8)
-        label.set_path_effects([pe.withStroke(linewidth=2.5, foreground='#061b33')])
+    from label_layout import place_bank_labels     # names placed so they don't overlap
+    place_bank_labels(ax, banks, fontsize=7.3)
 
     # True cartographic distance scale, evaluated at the chosen latitude.
     # Longitude spacing in km at 17.5 degrees north is approx 111.32*cos(lat).

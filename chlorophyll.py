@@ -77,8 +77,8 @@ def generate_chlorophyll(out, root, banks, bounds, dataset_id, username, passwor
             lon,lat = float(bank['lon']),float(bank['lat'])
             if west <= lon <= east and south <= lat <= north:
                 ax.add_artist(AnnotationBbox(OffsetImage(icon,zoom=1),(lon,lat),xycoords='data',frameon=False,pad=0,zorder=7))
-                label=ax.annotate(bank['name'],(lon,lat),xytext=(9,-7),textcoords='offset points',fontsize=7.3,color='white',fontweight='bold',zorder=8)
-                label.set_path_effects([pe.withStroke(linewidth=2.5,foreground='#061b33')])
+        from label_layout import place_bank_labels     # names placed so they don't overlap
+        place_bank_labels(ax,[b for b in banks if west<=float(b['lon'])<=east and south<=float(b['lat'])<=north],fontsize=7.3)
         date = np.datetime_as_string(latest,unit='D')
         ax.set_title('JAMAICA MARINE WEATHER  |  CHLOROPHYLL-a\nSatellite observation: '+date+' UTC',
                      color='white', fontsize=15, weight='bold', pad=17)
