@@ -1296,6 +1296,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.66667,
+            "lon": -77.25,
+            "strength": 0.665,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.25,
+            "lon": -77.25,
+            "strength": 4.3809,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.25,
+            "lon": -77.25,
+            "strength": 10.6892,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.5,
+            "lon": -77.33333,
+            "strength": 12.8873,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "california": [
@@ -2542,6 +2596,60 @@
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.75,
+            "lon": -76.75,
+            "strength": 0.6548,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 1,
+            "persistence": "not established"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.41667,
+            "lon": -76.83333,
+            "strength": 1.9094,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.66667,
+            "lon": -76.41666,
+            "strength": 7.7048,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.66667,
+            "lon": -76.66666,
+            "strength": 6.6576,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
             "persistence": "repeated feature"
           }
         ],
@@ -3832,6 +3940,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.41667,
+            "lon": -76.16666,
+            "strength": 0.4605,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.33334,
+            "lon": -76.75,
+            "strength": 2.6381,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.66667,
+            "lon": -76.33333,
+            "strength": 8.0593,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.66667,
+            "lon": -76.66666,
+            "strength": 6.6576,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "portroyal": [
@@ -5054,6 +5216,60 @@
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.75,
+            "lon": -76.75,
+            "strength": 0.6548,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 1,
+            "persistence": "not established"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.58334,
+            "lon": -76.91666,
+            "strength": 0.4097,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.66667,
+            "lon": -76.58333,
+            "strength": 5.7054,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.66667,
+            "lon": -76.66666,
+            "strength": 6.6576,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
             "persistence": "repeated feature"
           }
         ],
@@ -6356,6 +6572,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.91667,
+            "lon": -75.83333,
+            "strength": 0.5958,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.25,
+            "lon": -75.75,
+            "strength": 3.133,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.41667,
+            "lon": -76.25,
+            "strength": 14.0597,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.41667,
+            "lon": -76.25,
+            "strength": 17.9555,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "grappler": [
@@ -7650,6 +7920,60 @@
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.91667,
+            "lon": -75.83333,
+            "strength": 0.5958,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.25,
+            "lon": -75.75,
+            "strength": 3.133,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.33334,
+            "lon": -76.16666,
+            "strength": 12.3337,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.33334,
+            "lon": -76.16666,
+            "strength": 14.1721,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
             "persistence": "repeated feature"
           }
         ],
@@ -8952,6 +9276,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 18.75,
+            "lon": -76.08333,
+            "strength": 0.6812,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.25,
+            "lon": -75.75,
+            "strength": 3.133,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 1,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.41667,
+            "lon": -76.16666,
+            "strength": 12.6478,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.41667,
+            "lon": -76.16666,
+            "strength": 14.8265,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "mobayair": [
@@ -10199,6 +10577,60 @@
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 1,
             "persistence": "not established"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 18.75,
+            "lon": -77.91666,
+            "strength": 0.3446,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 1,
+            "persistence": "not established"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.75,
+            "lon": -77.91666,
+            "strength": 2.0303,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.91667,
+            "lon": -77.91666,
+            "strength": 4.7871,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.91667,
+            "lon": -77.91666,
+            "strength": 6.7606,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
           }
         ],
         "model_version": "3.9.2"
@@ -11464,6 +11896,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 18.5,
+            "lon": -76.16666,
+            "strength": 0.4357,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.33334,
+            "lon": -76.25,
+            "strength": 2.0254,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.41667,
+            "lon": -76.25,
+            "strength": 14.0597,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.41667,
+            "lon": -76.25,
+            "strength": 17.9555,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "riverm": [
@@ -12662,6 +13148,60 @@
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 18.25,
+            "lon": -76.16666,
+            "strength": 0.4018,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.33334,
+            "lon": -76.25,
+            "strength": 2.0254,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.41667,
+            "lon": -76.25,
+            "strength": 14.0597,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.41667,
+            "lon": -76.25,
+            "strength": 17.9555,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
             "persistence": "repeated feature"
           }
         ],
@@ -13900,6 +14440,60 @@
             "search_radius_km": 12.8,
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 18.66667,
+            "lon": -77.33333,
+            "strength": 0.4267,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 18.75,
+            "lon": -77.91666,
+            "strength": 2.0303,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 18.91667,
+            "lon": -77.75,
+            "strength": 5.608,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 18.91667,
+            "lon": -77.75,
+            "strength": 7.8228,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
             "persistence": "repeated feature"
           }
         ],
@@ -15202,6 +15796,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.75,
+            "lon": -75.83333,
+            "strength": 0.5445,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.75,
+            "lon": -75.75,
+            "strength": 2.2577,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.66667,
+            "lon": -76.25,
+            "strength": 7.7778,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 1,
+            "persistence": "not established"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.5,
+            "lon": -75.75,
+            "strength": 8.4072,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "maiden": [
@@ -16428,6 +17076,60 @@
           }
         ],
         "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.75,
+            "lon": -76.75,
+            "strength": 0.6548,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.58334,
+            "lon": -76.91666,
+            "strength": 0.4097,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.66667,
+            "lon": -76.5,
+            "strength": 6.7166,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 3,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.66667,
+            "lon": -76.66666,
+            "strength": 6.6576,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 4,
+            "persistence": "repeated feature"
+          }
+        ],
+        "model_version": "3.9.2"
       }
     ],
     "cowbay": [
@@ -16511,6 +17213,60 @@
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 1,
             "persistence": "building history"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.75,
+            "lon": -76.75,
+            "strength": 0.6548,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.5,
+            "lon": -76.75,
+            "strength": 0.5886,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.66667,
+            "lon": -76.33333,
+            "strength": 8.0593,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.66667,
+            "lon": -76.66666,
+            "strength": 6.6576,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
           }
         ],
         "model_version": "3.9.2"
@@ -16621,6 +17377,60 @@
             "interpretation": "Environmental feature, not a verified fishing hotspot",
             "historical_matching_dates": 1,
             "persistence": "building history"
+          }
+        ],
+        "model_version": "3.9.2"
+      },
+      {
+        "date": "2026-11-23",
+        "features": [
+          {
+            "kind": "sst_front",
+            "label": "Temperature front",
+            "lat": 17.66667,
+            "lon": -77.25,
+            "strength": 0.665,
+            "unit": "\u00b0C/100 km",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "convergence",
+            "label": "Current convergence",
+            "lat": 17.5,
+            "lon": -76.91666,
+            "strength": 0.7927,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 0,
+            "persistence": "not established"
+          },
+          {
+            "kind": "shear",
+            "label": "Current shear",
+            "lat": 17.58334,
+            "lon": -77.41666,
+            "strength": 13.2414,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
+          },
+          {
+            "kind": "eddy_candidate",
+            "label": "Possible eddy / rotation",
+            "lat": 17.58334,
+            "lon": -77.41666,
+            "strength": 16.5568,
+            "unit": "10\u207b\u2076 s\u207b\u00b9",
+            "search_radius_km": 12.8,
+            "interpretation": "Environmental feature, not a verified fishing hotspot",
+            "historical_matching_dates": 2,
+            "persistence": "repeated feature"
           }
         ],
         "model_version": "3.9.2"
