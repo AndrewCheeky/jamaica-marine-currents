@@ -79,7 +79,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('python history_storage.py save',WORKFLOW)
         self.assertIn('python -m unittest discover -s tests -v',WORKFLOW)
         self.assertIn('contents: write',WORKFLOW)
-        self.assertEqual(WORKFLOW.count("- cron:"),1)
-        self.assertIn('15 5,11,17,23',WORKFLOW)
+        self.assertEqual(WORKFLOW.count("- cron:"),0)   # started by the marine Apps Script refresh chain
+        self.assertIn('workflow_dispatch',WORKFLOW)
 
 if __name__=='__main__':unittest.main()
