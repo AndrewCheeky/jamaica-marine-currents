@@ -1,8 +1,8 @@
 name: Generate Jamaica currents map
 on:
+  # Started by the marine Apps Script refresh chain (RefreshChain.gs) at about 1:45 AM, 7:45 AM, 1:45 PM and 7:45 PM
+  # Jamaica time, with backups. GitHub's own timer is off because it ran hours late; use "Run workflow" to start by hand.
   workflow_dispatch:
-  schedule:
-    - cron: '15 5,11,17,23 * * *'
 permissions:
   contents: write
   pages: write
