@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -29,13 +30,41 @@ def request(method, path, payload=None):
         'Content-Type': 'application/json',
         'User-Agent': 'jamaica-marine-history',
     })
-    try:
-        with urllib.request.urlopen(req, timeout=30) as res:
-            return json.load(res)
-    except urllib.error.HTTPError as err:
-        if err.code == 404:
-            return None
-        raise RuntimeError(f'GitHub history request failed (HTTP {err.code})') from err
+    # GitHub sometimes answers 5xx or drops the connection for a moment: wait and try again (3 tries).
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as res:
+                return json.load(res)
+        except urllib.error.HTTPError as err:
+            if err.code == 404:
+                return None
+            if err.code in (500, 502, 503, 504) and attempt < 2:
+                print(f'GitHub HTTP {err.code}; retrying in {10 * (attempt + 1)} s'); time.sleep(10 * (attempt + 1)); continue
+            raise RuntimeError(f'GitHub history request failed (HTTP {err.code})') from err
+        except (urllib.error.URLError, TimeoutError) as err:
+            if attempt < 2:
+                print(f'GitHub connection problem ({err}); retrying'); time.sleep(10 * (attempt + 1)); continue
+            raise RuntimeError(f'GitHub history request failed ({err})') from err
+
+
+def blob_sha(raw):
+    """Git's own id for these exact bytes – what GitHub reports for the file it committed."""
+    return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+
+def put_verified(name, raw, message, current):
+    """Commit raw to the history branch and confirm GitHub stored exactly these bytes.
+    Checked against the commit's own file id, not by reading the file back straight away:
+    GitHub's read-back can briefly return the previous copy, which made good saves look failed."""
+    payload = {'message': message, 'branch': BRANCH, 'content': base64.b64encode(raw).decode()}
+    if current: payload['sha'] = current['sha']
+    result = request('PUT', f'/contents/{name}', payload)
+    stored = (result or {}).get('content', {}).get('sha')
+    if not stored:
+        raise RuntimeError(f'{name}: save did not return a committed file')
+    if stored != blob_sha(raw):
+        raise RuntimeError(f'{name}: saved bytes differ from the local archive')
+    return stored
 
 
 def validate_history(raw):
@@ -78,17 +107,8 @@ def save_features():
     data=json.loads(raw)
     if not isinstance(data,dict) or not isinstance(data.get('banks'),dict) or not data['banks']:
         raise ValueError('Refusing invalid/empty feature history')
-    previous=feature_content()
-    payload={'message':'Update ocean feature history','branch':BRANCH,
-             'content':base64.b64encode(raw).decode()}
-    if previous:payload['sha']=previous['sha']
-    result=request('PUT',f'/contents/{FEATURE_FILE}',payload)
-    if not result or not result.get('content',{}).get('sha'):
-        raise RuntimeError('Feature history save failed')
-    verified=feature_content()
-    if not verified or hashlib.sha256(base64.b64decode(verified['content'])).digest()!=hashlib.sha256(raw).digest():
-        raise RuntimeError('Feature history checksum mismatch')
-    print('FEATURE HISTORY VERIFY: SHA-256 matches')
+    put_verified(FEATURE_FILE, raw, 'Update ocean feature history', feature_content())
+    print('FEATURE HISTORY VERIFY: GitHub stored exactly the local bytes')
 
 
 def restore():
@@ -120,21 +140,8 @@ def save():
         base = request('GET', f'/git/ref/heads/{default["default_branch"]}')
         request('POST', '/git/refs', {'ref': f'refs/heads/{BRANCH}', 'sha': base['object']['sha']})
         print('HISTORY SAVE: created persistent history branch')
-    previous = get_content()
-    payload = {
-        'message': 'Update marine environmental observation history',
-        'branch': BRANCH,
-        'content': base64.b64encode(raw).decode(),
-    }
-    if previous:
-        payload['sha'] = previous['sha']
-    result=request('PUT', f'/contents/{FILE}', payload)
-    if not result or not result.get('content',{}).get('sha'):
-        raise RuntimeError('History save did not return a committed file')
-    verified=get_content()
-    if not verified or hashlib.sha256(base64.b64decode(verified['content'])).digest()!=hashlib.sha256(raw).digest():
-        raise RuntimeError('History save verification failed: remote bytes differ')
-    print('HISTORY VERIFY: saved history SHA-256 matches local archive')
+    put_verified(FILE, raw, 'Update marine environmental observation history', get_content())
+    print('HISTORY VERIFY: GitHub stored exactly the local archive')
     save_features()
     print(f'HISTORY SAVE: {len(banks)} banks; '
           f'{sum(len(v) for v in banks.values() if isinstance(v,list))} snapshots persisted')
